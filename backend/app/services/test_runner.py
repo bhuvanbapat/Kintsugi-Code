@@ -73,6 +73,8 @@ class TestRunner:
         self.settings = get_settings()
 
     async def run(self, scope: str = "auto", timeout: float | None = None) -> dict[str, Any]:
+        import time as _time
+
         info = detect_project_type(self.root)
         cmd = info.get("test_command")
         if not cmd:
@@ -81,6 +83,7 @@ class TestRunner:
         if isinstance(scope, str) and scope not in ("auto", "", None):
             cmd = cmd + [scope]
         timeout = timeout or self.settings.command_timeout_seconds
+        started = _time.monotonic()
         try:
             proc = subprocess.run(
                 cmd, cwd=str(self.root), capture_output=True, text=True,
@@ -89,9 +92,11 @@ class TestRunner:
             stdout, stderr = proc.stdout, proc.stderr
             exit_code: int | None = proc.returncode
         except subprocess.TimeoutExpired:
-            return {"ok": False, "error": f"tests timed out after {timeout}s", "command": cmd}
+            return {"ok": False, "error": f"tests timed out after {timeout}s",
+                    "command": cmd, "duration_ms": int(timeout * 1000)}
         except FileNotFoundError:
             return {"ok": False, "error": f"command not found: {cmd[0]}", "command": cmd}
+        duration_ms = int((_time.monotonic() - started) * 1000)
 
         stdout, stderr = redact(stdout), redact(stderr)
         max_out = self.settings.max_tool_output_bytes
@@ -104,7 +109,7 @@ class TestRunner:
             "exit_code": exit_code,
             "stdout": stdout,
             "stderr": stderr,
-            "duration_ms": None,
+            "duration_ms": duration_ms,
             **parsed,
         }
 

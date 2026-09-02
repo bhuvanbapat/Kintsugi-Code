@@ -13,6 +13,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from app.agent.skills import SKILLS
 from app.agent.state_machine import AgentStateMachine
 from app.core.config import get_settings
 from app.core.logging import get_logger
@@ -32,21 +33,11 @@ from app.tools.registry import ToolContext, ToolRegistry, build_default_registry
 
 log = get_logger(__name__)
 
-# Tool policy per task mode — read-only modes never touch modification tools.
+# Tool policy per task mode — defined by the product skill specs
+# (app/agent/skills.py), which document purpose, workflow, expected output,
+# and failure conditions for every mode. This map is a view over those specs.
 MODE_TOOLS: dict[TaskMode, set[str]] = {
-    TaskMode.EXPLAIN: {"read_file", "list_files", "search_code", "search_symbols", "get_symbol",
-                       "get_repository_map", "get_dependencies", "get_git_status", "get_git_history"},
-    TaskMode.LOCATE: {"read_file", "list_files", "search_code", "search_symbols", "get_symbol",
-                      "get_dependencies"},
-    TaskMode.ANALYZE: {"read_file", "search_code", "search_symbols", "get_symbol", "get_repository_map",
-                       "get_dependencies", "run_tests", "get_git_diff"},
-    TaskMode.PLAN: {"read_file", "list_files", "search_code", "search_symbols", "get_symbol",
-                    "get_repository_map", "get_dependencies", "run_tests", "inspect_project_config"},
-    TaskMode.TEST: {"run_tests", "read_file", "search_code", "search_symbols", "inspect_project_config"},
-    TaskMode.FIX: {"read_file", "search_code", "search_symbols", "get_symbol", "run_tests",
-                   "apply_patch", "write_file", "create_file", "get_git_diff"},
-    TaskMode.REVIEW: {"read_file", "list_files", "search_code", "search_symbols", "get_symbol",
-                      "get_git_diff", "get_git_status", "run_tests"},
+    mode: set(spec.allowed_tools) for mode, spec in SKILLS.items()
 }
 
 EXECUTION_MODES_ALLOW_MODIFICATION = {ExecutionMode.CONTROLLED_EXECUTION}
@@ -190,10 +181,16 @@ class Agent:
             if mode == TaskMode.LOCATE:
                 return ("search_symbols", {"query": context["query"]})
             return ("get_repository_map", {})
-        # Later iterations: fill gaps.
+        # Later iterations: fill gaps per mode skill workflow.
         if mode in (TaskMode.TEST, TaskMode.FIX):
             files = context.get("files") or []
-            if files:
+            if iteration == 2 and files:
+                return ("read_file", {"path": files[0]["path"],
+                                      "start_line": files[0].get("start_line", 1),
+                                      "end_line": (files[0].get("start_line", 1) + 40)})
+            if mode == TaskMode.FIX and iteration == 3:
+                return ("get_git_diff", {})
+            if files and iteration > 2:
                 return ("read_file", {"path": files[0]["path"],
                                       "start_line": files[0].get("start_line", 1),
                                       "end_line": (files[0].get("start_line", 1) + 40)})

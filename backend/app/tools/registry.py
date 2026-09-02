@@ -235,6 +235,51 @@ async def get_dependencies(ctx: ToolContext, args: dict[str, Any]) -> dict[str, 
     return {"dependencies": edges[:500]}
 
 
+async def find_path(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
+    """Shortest import chain between two files (BFS over resolved import edges)."""
+    from collections import deque
+
+    from app.indexing.language import resolve_module_path
+
+    start, end = str(args.get("from", "")), str(args.get("to", ""))
+    if not start or not end:
+        raise ToolError("find_path requires 'from' and 'to' file paths")
+    files = ctx.store.list_files(ctx.repository.id)
+    file_set = {f.path for f in files if f.is_source}
+    if start not in file_set or end not in file_set:
+        raise ToolError("both endpoints must be indexed source files")
+
+    symbols = ctx.store.list_symbols(ctx.repository.id)
+    rels = ctx.store.list_relationships(ctx.repository.id)
+    sym_by_id = {s.id: s for s in symbols}
+    adjacency: dict[str, set[str]] = {}
+    for r in rels:
+        if r.kind.value != "imports":
+            continue
+        src = sym_by_id.get(r.source)
+        if not src:
+            continue
+        tgt = sym_by_id.get(r.target)
+        if tgt is None or tgt.kind.value != "module":
+            continue
+        resolved = resolve_module_path(tgt.name.removeprefix("module:"), file_set)
+        if resolved and resolved != src.file_path:
+            adjacency.setdefault(src.file_path, set()).add(resolved)
+
+    queue = deque([(start, [start])])
+    visited = {start}
+    while queue:
+        node, path = queue.popleft()
+        if node == end:
+            return {"found": True, "path": path, "hops": len(path) - 1}
+        for neighbor in sorted(adjacency.get(node, ())):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+    return {"found": False, "path": [], "hops": 0,
+            "note": f"no import chain from {start} to {end}"}
+
+
 async def get_git_status(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
     res = _run_command(["git", "status", "--porcelain"], cwd=ctx.root, timeout=30)
     if res["exit_code"] != 0:
@@ -365,6 +410,9 @@ def build_default_registry() -> ToolRegistry:
                       parameters={}))
     reg.register(Tool("get_dependencies", "Import dependency edges", get_dependencies,
                       parameters={}))
+    reg.register(Tool("find_path", "Shortest import chain between two files",
+                      find_path,
+                      parameters={"from": "string", "to": "string"}))
     reg.register(Tool("get_git_status", "Git working tree status", get_git_status,
                       parameters={}))
     reg.register(Tool("get_git_diff", "Git diff (staged or unstaged)", get_git_diff,

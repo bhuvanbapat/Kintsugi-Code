@@ -56,5 +56,5 @@ pointers into the code/docs.
 - Why is "full autonomy" not marketed here?
 
 ## Failure handling
-- What degrades gracefully, and how? (AST fallback, FTS fallback, mock provider, per-file parse errors)
+- What degrades gracefully, and how? (AST stdlib fallback, mock provider, per-file parse errors)
 - What did you have to fix during development that tests now protect against? (SQL column mismatch, byte offsets, import naming, ranking regression)

@@ -8,14 +8,14 @@ auto-rolling-back code fixes — with a full agent trace, MCP integration,
 and a measured 8/8 retrieval benchmark.
 
 ## Actual technology stack
-Python 3.11+ · FastAPI · Pydantic · SQLite (FTS5) · tree-sitter ·
+Python 3.11+ · FastAPI · Pydantic · SQLite · tree-sitter ·
 httpx · pytest · React 18 · TypeScript · Vite · Docker · GitHub Actions ·
 MCP (JSON-RPC 2.0 stdio) · Graphify (dev-time knowledge graph)
 
 ## Strongest technical capabilities
 1. **Structural code intelligence** — multi-language AST extraction with
    byte-offset-correct symbol/relationship graphs persisted in SQLite.
-2. **Hybrid retrieval with measured quality** — lexical (FTS5) + rarity-weighted
+2. **Hybrid retrieval with measured quality** — lexical (BM25) + rarity-weighted
    symbol search + importance priors; benchmarked (8/8, recall 0.875), with
    a documented before/after ranking fix.
 3. **Safe agent engineering** — validated state machine, bounded iterations,

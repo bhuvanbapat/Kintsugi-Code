@@ -41,6 +41,7 @@ set CODEFORGE_MCP_REPO_ID=<repo id>
 | `get_repository_map` | — | structural file/symbol map |
 | `get_dependencies` | — | import dependency edges |
 | `list_files` | `pattern?`, `limit?` | indexed file inventory |
+| `find_path` | `from`, `to` | shortest import chain between two files |
 | `read_file` | `path`, line range | content with secret redaction |
 
 Verified end-to-end (subprocess stdio round-trip): `scripts/verify_mcp.py` —
@@ -67,8 +68,7 @@ by default) — loaded by `load_mcp_config()`.
 
 - The server speaks stdio only (no network listener).
 - Tool calls run through the same tool registry: path containment, secret
-  redaction, and output caps apply identically to MCP-originated calls.
-- No repository mutation tools are exposed over MCP (read-only surface +
+  redaction, and output caps apply identically to MCP-originated calls.- No repository mutation tools are exposed over MCP (read-only surface +
   `set_repository`).
 - External MCP servers spawned by the client inherit the process
   environment; operators should scope credentials accordingly.

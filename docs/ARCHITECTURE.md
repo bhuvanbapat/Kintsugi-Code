@@ -8,11 +8,11 @@ flowchart LR
     API --> Scanner[indexing/scanner<br/>+ language detection]
     Scanner --> AST[indexing/ast_parser<br/>tree-sitter]
     AST --> Store[(SQLite<br/>files / symbols / rels / docs)]
-    API --> Retrieval[retrieval/hybrid<br/>FTS5 + BM25 + symbol]
+    API --> Retrieval[retrieval/hybrid<br/>BM25 + symbol]
     Retrieval --> CtxEngine[retrieval/context_engine<br/>token budget]
     CtxEngine --> LLM[llm/providers<br/>openai | mock]
     API --> Agent[agent/engine<br/>state machine + tools]
-    Agent --> Tools[tools/registry<br/>16 tools]
+    Agent --> Tools[tools/registry<br/>17 tools]
     Tools --> Store
     Tools --> Runner[services/test_runner<br/>allow-listed subprocess]
     Agent --> Runs[(runs / traces)]
@@ -49,7 +49,7 @@ Three retrievers fused by ranked score blending:
 
 | Tier | Mechanism | Notes |
 |---|---|---|
-| Lexical | SQLite FTS5 (in-memory index) with BM25-style fallback | query-tokenized OR match |
+| Lexical | Pure-Python BM25 over the in-memory token index | thread-safe, no per-thread SQLite handles |
 | Structural | Symbol-name matching with rarity-weighted tokens | exact > substring; rare tokens weigh more; stopwords excluded |
 | Importance | File heuristics | manifests ↑, tests ↓, entrypoints ↑ |
 
@@ -82,7 +82,7 @@ query → intent detection (locate/explain/analyze/plan)
 
 ### 5. Tool system (backend/app/tools)
 
-16 tools in a registry. Safety model:
+17 tools in a registry. Safety model:
 
 - **Path containment**: `ToolContext.resolve_in_repo` resolves and verifies
   every path stays under the repository root (`Path.relative_to` check) —

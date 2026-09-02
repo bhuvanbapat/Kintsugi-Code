@@ -14,7 +14,7 @@ back automatically if tests break.
 | Capability | How it works |
 |---|---|
 | Repository indexing | Recursive scan → language detection → tree-sitter AST → symbols + relationships in SQLite |
-| Hybrid retrieval | Lexical (FTS5/BM25-style) + structural symbol search + file-importance ranking |
+| Hybrid retrieval | Lexical (pure-Python BM25) + structural symbol search + file-importance ranking |
 | Evidence-backed answers | Every response cites `path:line`; confidence marked confirmed/inferred/uncertain |
 | Controlled agent loop | Bounded iterations, validated state machine, per-mode tool policy, loop detection |
 | Safe code modification | Diff → apply → test → **automatic rollback** if tests fail |

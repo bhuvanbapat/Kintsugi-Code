@@ -34,7 +34,7 @@ testdiag-1  recall 0.50  PASS   (failing test + service retrieved)
 ```
 
 Retrieval latency rounds to 0ms at this corpus size — that is a real
-measurement (in-memory FTS over a small repo), not a placeholder.
+measurement (pure in-memory BM25 over a small repo), not a placeholder.
 
 ## Honest notes on the numbers
 

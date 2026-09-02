@@ -52,6 +52,17 @@ MCP_TOOLS: dict[str, dict[str, Any]] = {
         "description": "Import dependency edges between repository files.",
         "inputSchema": {"type": "object", "properties": {}},
     },
+    "find_path": {
+        "description": "Shortest import chain between two indexed files.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "from": {"type": "string", "description": "Starting file path"},
+                "to": {"type": "string", "description": "Target file path"},
+            },
+            "required": ["from", "to"],
+        },
+    },
     "list_files": {
         "description": "List indexed files with language/size metadata.",
         "inputSchema": {
