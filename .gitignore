@@ -33,3 +33,6 @@ graphify-out/cache/
 Thumbs.db
 .idea/
 .vscode/
+
+*.log
+tsconfig.tsbuildinfo
