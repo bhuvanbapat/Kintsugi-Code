@@ -257,9 +257,10 @@ async def get_git_diff(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]
     return {"stat": res["stdout"], "diff": diff}
 
 
-async def get_git_history(ctx: ToolContext, args: dict[str, None]) -> dict[str, Any]:
+async def get_git_history(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
+    limit = int(args.get("limit") or 30)
     res = _run_command(
-        ["git", "log", "--oneline", "-n", str(int(args.get("limit", 30)))],
+        ["git", "log", "--oneline", "-n", str(limit)],
         cwd=ctx.root, timeout=30,
     )
     if res["exit_code"] != 0:
@@ -290,6 +291,11 @@ async def inspect_project_config(ctx: ToolContext, args: dict[str, Any]) -> dict
 # -- modification tools -------------------------------------------------------
 
 async def write_file(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
+    """Propose a file write: returns the diff that WOULD be applied.
+
+    Agent tools never touch disk directly — changes are applied only via the
+    controlled /api/diff/apply endpoint (which validates and can roll back).
+    """
     rel = args["path"]
     root = ctx.root.resolve()
     target = (root / rel).resolve()
@@ -297,14 +303,13 @@ async def write_file(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
         target.relative_to(root)
     except ValueError:
         raise PathSecurityError(f"path escapes repository root: {rel}")
-    target.parent.mkdir(parents=True, exist_ok=True)
     old = _read_text(target) if target.exists() else ""
     new = args["content"]
     diff = "\n".join(difflib.unified_diff(
         old.splitlines(), new.splitlines(),
         fromfile=f"a/{rel}", tofile=f"b/{rel}", lineterm="",
     ))
-    return {"path": rel, "diff": diff, "wrote": True, "bytes": len(new)}
+    return {"path": rel, "diff": diff, "proposed": True, "bytes": len(new)}
 
 
 async def create_file(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
@@ -372,7 +377,7 @@ def build_default_registry() -> ToolRegistry:
                       parameters={}))
     reg.register(Tool("inspect_project_config", "Detect project type and commands", inspect_project_config,
                       parameters={}))
-    reg.register(Tool("apply_patch", "Propose/apply a file change (returns diff)", apply_patch,
+    reg.register(Tool("apply_patch", "Propose a file change (returns diff for approval)", apply_patch,
                       modifies_files=True,
                       parameters={"path": "string", "content": "string", "mode": "full|append?"}))
     reg.register(Tool("write_file", "Write full file content (returns diff)", write_file,

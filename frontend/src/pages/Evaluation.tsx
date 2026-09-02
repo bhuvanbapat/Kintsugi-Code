@@ -8,6 +8,7 @@ export default function Evaluation() {
   const [repoId, setRepoId] = useState("");
   const [result, setResult] = useState<EvaluationSummary | null>(null);
   const [running, setRunning] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     api.listRepositories().then((r) => {
@@ -20,10 +21,12 @@ export default function Evaluation() {
   async function run() {
     if (!repoId) return;
     setRunning(true);
+    setError(null);
     try {
       setResult(await api.runEvaluation(repoId));
     } catch (e) {
       setResult(null);
+      setError((e as Error).message);
     } finally {
       setRunning(false);
     }
@@ -56,6 +59,8 @@ export default function Evaluation() {
           {running ? "Running…" : "Run evaluation"}
         </button>
       </div>
+
+      {error && <p className="error-text" role="alert">{error}</p>}
 
       {running && <Spinner label="Evaluating retrieval…" />}
       {!running && !result && (

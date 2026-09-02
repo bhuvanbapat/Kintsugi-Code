@@ -7,8 +7,8 @@ import type { AgentRun, ChatMessage, Evidence, Repository } from "../types";
 const MODES = ["explain", "locate", "analyze", "plan", "test", "fix", "review"];
 
 function EvidenceList({ evidence }: { evidence: Evidence[] }) {
-  if (evidence.length === 0) return null;
   const navigate = useNavigate();
+  if (evidence.length === 0) return null;
   return (
     <div style={{ marginTop: 8 }}>
       <div className="dim" style={{ fontSize: 11, marginBottom: 4 }}>
@@ -64,6 +64,7 @@ export default function Workspace() {
   const [repos, setRepos] = useState<Repository[]>([]);
   const [repoId, setRepoId] = useState<string>("");
   const [mode, setMode] = useState("explain");
+  const [executionMode, setExecutionMode] = useState("analysis_only");
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [runsByMessage, setRunsByMessage] = useState<Record<string, AgentRun>>({});
@@ -89,7 +90,7 @@ export default function Workspace() {
     setMessages((m) => [...m, { id: `u${Date.now()}`, role: "user", content: text, evidence: [] }]);
     setBusy(true);
     try {
-      const res = await api.chat(repoId, text, mode);
+      const res = await api.chat(repoId, text, mode, undefined, executionMode);
       setMessages((m) => [...m, res.message]);
       setRunsByMessage((r) => ({ ...r, [res.message.id]: res.run }));
     } catch (e) {
@@ -137,6 +138,17 @@ export default function Workspace() {
               {m}
             </option>
           ))}
+        </select>
+        <select
+          className="input"
+          style={{ width: 170 }}
+          value={executionMode}
+          onChange={(e) => setExecutionMode(e.target.value)}
+          aria-label="Execution mode"
+          title="Controls what the agent is allowed to do"
+        >
+          <option value="analysis_only">analysis only (safe)</option>
+          <option value="controlled_execution">controlled execution</option>
         </select>
       </div>
 

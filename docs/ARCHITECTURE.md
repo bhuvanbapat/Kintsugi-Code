@@ -12,7 +12,7 @@ flowchart LR
     Retrieval --> CtxEngine[retrieval/context_engine<br/>token budget]
     CtxEngine --> LLM[llm/providers<br/>openai | mock]
     API --> Agent[agent/engine<br/>state machine + tools]
-    Agent --> Tools[tools/registry<br/>17 tools]
+    Agent --> Tools[tools/registry<br/>16 tools]
     Tools --> Store
     Tools --> Runner[services/test_runner<br/>allow-listed subprocess]
     Agent --> Runs[(runs / traces)]
@@ -82,7 +82,7 @@ query → intent detection (locate/explain/analyze/plan)
 
 ### 5. Tool system (backend/app/tools)
 
-17 tools in a registry. Safety model:
+16 tools in a registry. Safety model:
 
 - **Path containment**: `ToolContext.resolve_in_repo` resolves and verifies
   every path stays under the repository root (`Path.relative_to` check) —
@@ -179,8 +179,9 @@ This codebase was itself built with structural tooling:
 - **Graphify** knowledge graph (`graphify-out/`) — 597 nodes / 1467 edges /
   34 communities; used to verify architectural boundaries (e.g. agent engine
   community contains only agent+state machine files).
-- OpenCode skills consulted during development are listed in
-  `docs/RESUME_NOTES.md`.
+- The `graphify` OpenCode skill was the primary skill used during development
+  (structural understanding, change-impact queries); a project-local skill
+  (`.opencode/skills/codeforge-dev`) captures the repo's own conventions.
 
 ## Deployment
 

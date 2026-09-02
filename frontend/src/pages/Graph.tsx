@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
 import { EmptyState, Spinner, useAsync } from "../components/common";
-import type { GraphResponse } from "../types";
+import type { GraphResponse, Repository } from "../types";
 
 const KIND_COLORS: Record<string, string> = {
   imports: "#58a6ff",
@@ -39,8 +39,15 @@ function layout(nodes: GraphResponse["nodes"], edges: GraphResponse["edges"]): P
 export default function Graph() {
   const [repoId, setRepoId] = useState("");
   const [kind, setKind] = useState<"files" | "symbols">("files");
-  const { data: reposData } = useAsync(() => api.listRepositories(), []);
-  const repos = reposData?.repositories ?? [];
+  const [repos, setRepos] = useState<Repository[]>([]);
+
+  useEffect(() => {
+    api.listRepositories().then((r) => {
+      setRepos(r.repositories);
+      const indexed = r.repositories.find((x) => x.status === "indexed");
+      if (indexed) setRepoId(indexed.id);
+    });
+  }, []);
 
   const { data, loading, error } = useAsync<GraphResponse | null>(
     () => (repoId ? api.graph(repoId, kind) : Promise.resolve(null)),
@@ -50,11 +57,6 @@ export default function Graph() {
   const positioned = useMemo(() => (data ? layout(data.nodes, data.edges) : []), [data]);
   const posIndex = useMemo(() => new Map(positioned.map((p) => [p.id, p])), [positioned]);
   const [selected, setSelected] = useState<string | null>(null);
-
-  if (!repoId && repos.length > 0) {
-    const indexed = repos.find((r) => r.status === "indexed");
-    if (indexed) setRepoId(indexed.id);
-  }
 
   const selectedNode = data?.nodes.find((n) => n.id === selected);
   const connected = data?.edges.filter(

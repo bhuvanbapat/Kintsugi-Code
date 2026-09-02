@@ -47,9 +47,10 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 
 class ImportRepoRequest(BaseModel):
-    path: str
+    path: str = ""
     name: str | None = None
     extra_ignores: list[str] = Field(default_factory=list)
+    git_url: str | None = None
 
 
 class ScanRequest(BaseModel):
@@ -169,11 +170,27 @@ async def update_settings(body: SettingsUpdate) -> dict[str, Any]:
 async def import_repository(body: ImportRepoRequest) -> dict[str, Any]:
     store = get_store()
     from app.indexing.scanner import normalize_repo_path
+    from app.services.git_import import clone_repository
+
+    if body.git_url:
+        try:
+            local_path = await _run_in_thread(clone_repository, body.git_url)
+        except (ValueError, TimeoutError, RuntimeError) as e:
+            raise HTTPException(400, str(e))
+        repo = Repository(
+            name=body.name or local_path.name,
+            root_path=str(local_path),
+            kind=RepositoryKind.GIT_URL,
+        )
+        store.upsert_repository(repo)
+        return {"ok": True, "repository": repo.model_dump()}
 
     try:
         root = normalize_repo_path(body.path)
     except (FileNotFoundError, NotADirectoryError) as e:
         raise HTTPException(400, str(e))
+    if not body.path:
+        raise HTTPException(400, "either 'path' (local) or 'git_url' (https) is required")
     name = body.name or root.name
     repo = Repository(name=name, root_path=str(root), kind=RepositoryKind.LOCAL)
     store.upsert_repository(repo)
@@ -292,9 +309,11 @@ async def graph(repo_id: str, kind: Literal["files", "symbols"] = "files") -> di
     sym_by_id = {s.id: s for s in symbols}
 
     if kind == "files":
-        nodes = [{"id": f.path, "label": f.path.split("/")[-1], "type": "file",
-                  "language": f.language, "is_test": f.is_test}
-                 for f in files if f.is_source]
+        nodes: list[dict[str, Any]] = [
+            {"id": f.path, "label": f.path.split("/")[-1], "type": "file",
+             "language": f.language, "is_test": f.is_test}
+            for f in files if f.is_source
+        ]
         file_set = {f.path for f in files if f.is_source}
         edges = []
         seen = set()
@@ -320,8 +339,17 @@ async def graph(repo_id: str, kind: Literal["files", "symbols"] = "files") -> di
     nodes = [{"id": s.id, "label": s.name, "type": s.kind.value,
               "file": s.file_path, "line": s.start_line}
              for s in symbols if s.kind.value in ("class", "function", "method")]
-    edges = [{"source": r.source, "target": r.target, "kind": r.kind.value}
-             for r in rels if r.kind.value in ("contains", "imports")]
+    # symbols graph
+    sym_nodes = [
+        {"id": s.id, "label": s.name, "type": s.kind.value,
+         "file": s.file_path, "line": s.start_line}
+        for s in symbols if s.kind.value in ("class", "function", "method")
+    ]
+    sym_edges = [{"source": r.source, "target": r.target, "kind": r.kind.value}
+                 for r in rels if r.kind.value in ("contains", "imports")]
+    return {"nodes": sym_nodes, "edges": sym_edges}
+
+
 # ---------------------------------------------------------------------------
 # chat / agent
 # ---------------------------------------------------------------------------

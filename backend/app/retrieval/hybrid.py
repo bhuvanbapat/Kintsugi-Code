@@ -1,15 +1,15 @@
 """Hybrid retrieval: lexical, structural (symbol), and metadata-filtered search.
 
-Deliberately dependency-free (no external vector DB): lexical search runs over
-SQLite FTS5 when available with a LIKE-based fallback; symbol search queries
-the symbols table; ranking blends BM25-ish lexical score, symbol-name match,
-and file importance heuristics. The goal is the smallest useful context.
+Deliberately dependency-free (no external vector DB, no per-thread SQLite
+handles): the lexical tier is a pure-Python BM25-style scorer over the
+in-memory token index; symbol search scores names with rarity weighting;
+ranking blends both plus file-importance heuristics. The goal is the
+smallest useful context.
 """
 from __future__ import annotations
 
 import math
 import re
-import sqlite3
 from collections import Counter
 from typing import Literal
 
@@ -50,37 +50,8 @@ class HybridRetriever:
                 self._df[t] += 1
         self._avg_len = (sum(self._doc_len.values()) / len(self._doc_len)) if self._doc_len else 1.0
         self._total_docs = max(len(self._doc_len), 1)
-        self._fts_ok = self._try_init_fts(contents)
-    # -- FTS ----------------------------------------------------------------
-    def _try_init_fts(self, contents: dict[str, str]) -> bool:
-        """FTS5 available check — try creating an in-memory FTS index."""
-        try:
-            conn = sqlite3.connect(":memory:")
-            conn.execute("CREATE VIRTUAL TABLE t USING fts5(path, content)")
-            for path, content in contents.items():
-                conn.execute("INSERT INTO t VALUES (?,?)", (path, content))
-            self._fts = conn
-            return True
-        except sqlite3.OperationalError:
-            self._fts = None
-            return False
 
-    def _fts_search(self, query: str, limit: int) -> list[tuple[str, float]]:
-        if not self._fts_ok or not query.strip():
-            return []
-        tokens = _tokenize(query)
-        fts_query = " OR ".join(f'"{t}"' for t in tokens)
-        try:
-            rows = self._fts.execute(
-                "SELECT path, rank FROM t WHERE t MATCH ? ORDER BY rank LIMIT ?",
-                (fts_query, limit),
-            ).fetchall()
-            # Lower rank (more negative) = better in FTS5.
-            return [(r[0], -float(r[1]) if r[1] else 1.0) for r in rows]
-        except sqlite3.OperationalError:
-            return []
-
-    # -- lexical BM25-ish -----------------------------------------------------
+    # -- lexical BM25 -------------------------------------------------------
     def _lexical_scores(self, query: str, limit: int) -> dict[str, float]:
         scores: dict[str, float] = {}
         tokens = _tokenize(query)
@@ -175,12 +146,7 @@ class HybridRetriever:
 
         lexical: dict[str, float] = {}
         if mode in ("lexical", "hybrid"):
-            if self._fts_ok:
-                lexical = dict(self._fts_search(query, limit * 2))
-                if not lexical:
-                    lexical = self._lexical_scores(query, limit * 2)
-            else:
-                lexical = self._lexical_scores(query, limit * 2)
+            lexical = self._lexical_scores(query, limit * 2)
 
         symbols: list[tuple[Symbol, float]] = []
         if mode in ("symbol", "hybrid"):

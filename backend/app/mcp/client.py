@@ -45,7 +45,7 @@ class MCPClient:
         log.info("MCP server started: %s %s", self.command, " ".join(self.args))
 
     async def _send(self, payload: dict) -> dict | None:
-        if self._proc is None or self._proc.stdin is None:
+        if self._proc is None or self._proc.stdin is None or self._proc.stdout is None:
             raise RuntimeError("MCP client not started")
         async with self._lock:
             self._proc.stdin.write((json.dumps(payload) + "\n").encode())

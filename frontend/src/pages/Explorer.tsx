@@ -102,10 +102,19 @@ export default function Explorer() {
 
   useEffect(() => {
     if (!repoId) return;
-    setFiles(null);
-    api.listFiles(repoId).then((r) => setFiles(r.files));
+    let cancelled = false;
+    // Reset + fetch in the continuation, not synchronously in the effect body.
+    Promise.resolve().then(() => {
+      if (!cancelled) setFiles(null);
+    });
+    api.listFiles(repoId).then((r) => {
+      if (!cancelled) setFiles(r.files);
+    });
     const preselect = params.get("file");
     if (preselect) openFile(preselect, Number(params.get("line") ?? 1));
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repoId]);
 

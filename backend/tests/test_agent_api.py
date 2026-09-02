@@ -147,6 +147,12 @@ def test_full_api_flow(client, sample_repo_copy):
     r = client.get(f"/api/graph?repo_id={repo_id}&kind=files")
     assert r.status_code == 200
     assert r.json()["nodes"]
+    r = client.get(f"/api/graph?repo_id={repo_id}&kind=symbols")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["nodes"], "symbols graph must return nodes"
+    assert any(n["type"] in ("class", "function") for n in body["nodes"])
+    assert any(e["kind"] == "contains" for e in body["edges"])
 
     # file view
     r = client.get(f"/api/repositories/{repo_id}/file",

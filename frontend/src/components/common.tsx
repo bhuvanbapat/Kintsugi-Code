@@ -67,9 +67,17 @@ export function useAsync<T>(
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
-    setError(null);
-    fn()
+    const promise = fn();
+    // Reset state in the microtask continuation (not synchronously in the
+    // effect body) so the effect never triggers cascading renders.
+    Promise.resolve()
+      .then(() => {
+        if (!cancelled) {
+          setLoading(true);
+          setError(null);
+        }
+      })
+      .then(() => promise)
       .then((d) => {
         if (!cancelled) setData(d);
       })

@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../api/client";
 import { EmptyState, Spinner, useAsync } from "../components/common";
 import type { Repository, Symbol } from "../types";
 
 export default function Symbols() {
   const [repoId, setRepoId] = useState("");
-  const { data: reposData } = useAsync(() => api.listRepositories(), []);
+  const [repos, setRepos] = useState<Repository[]>([]);
   const [filter, setFilter] = useState("");
   const [kindFilter, setKindFilter] = useState("");
   const { data, loading, error } = useAsync(
@@ -13,18 +13,20 @@ export default function Symbols() {
     [repoId]
   );
 
-  const repos: Repository[] = reposData?.repositories ?? [];
+  useEffect(() => {
+    api.listRepositories().then((r) => {
+      setRepos(r.repositories);
+      const indexed = r.repositories.find((x) => x.status === "indexed");
+      if (indexed) setRepoId(indexed.id);
+    });
+  }, []);
+
   const symbols: Symbol[] = data?.symbols ?? [];
   const visible = symbols.filter(
     (s) =>
       (!filter || s.name.toLowerCase().includes(filter.toLowerCase())) &&
       (!kindFilter || s.kind === kindFilter)
   );
-
-  if (!repoId && repos.length > 0) {
-    const indexed = repos.find((r) => r.status === "indexed");
-    if (indexed) setRepoId(indexed.id);
-  }
 
   return (
     <div style={{ maxWidth: 900 }}>

@@ -74,10 +74,16 @@ export const api = {
   graph: (repoId: string, kind: "files" | "symbols") =>
     req<GraphResponse>(`/graph?repo_id=${repoId}&kind=${kind}`),
 
-  chat: (repository_id: string, message: string, mode: string, conversation_id?: string | null) =>
+  chat: (
+    repository_id: string,
+    message: string,
+    mode: string,
+    conversation_id?: string | null,
+    execution_mode: string = "analysis_only"
+  ) =>
     req<{ conversation_id: string; message: ChatMessage; run: AgentRun }>("/chat", {
       method: "POST",
-      body: JSON.stringify({ repository_id, message, mode, conversation_id }),
+      body: JSON.stringify({ repository_id, message, mode, conversation_id, execution_mode }),
     }),
 
   listRuns: (repoId?: string) =>

@@ -13,6 +13,8 @@ import re
 from abc import ABC, abstractmethod
 from typing import Any
 
+import httpx
+
 from app.core.config import Settings, get_settings
 from app.core.logging import get_logger
 
@@ -134,12 +136,10 @@ class OpenAIProvider(LLMProvider):
 
     def __init__(self, settings: Settings | None = None) -> None:
         self.settings = settings or get_settings()
-        self._client = None
+        self._client: httpx.AsyncClient | None = None
 
-    def _get_client(self):
+    def _get_client(self) -> httpx.AsyncClient:
         if self._client is None:
-            import httpx
-
             headers = {"Content-Type": "application/json"}
             if self.settings.llm_api_key:
                 headers["Authorization"] = f"Bearer {self.settings.llm_api_key}"

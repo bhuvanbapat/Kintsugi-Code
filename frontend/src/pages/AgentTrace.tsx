@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../api/client";
 import { EmptyState, Spinner, useAsync } from "../components/common";
 import type { AgentRun, Repository } from "../types";
@@ -11,18 +11,20 @@ function stateColor(state: string): string {
 
 export default function AgentTrace() {
   const [repoId, setRepoId] = useState("");
-  const { data: reposData } = useAsync(() => api.listRepositories(), []);
-  const repos: Repository[] = reposData?.repositories ?? [];
+  const [repos, setRepos] = useState<Repository[]>([]);
   const { data, loading, error, reload } = useAsync(
     () => (repoId ? api.listRuns(repoId) : Promise.resolve({ runs: [] })),
     [repoId]
   );
   const [openRun, setOpenRun] = useState<AgentRun | null>(null);
 
-  if (!repoId && repos.length > 0) {
-    const indexed = repos.find((r) => r.status === "indexed");
-    if (indexed) setRepoId(indexed.id);
-  }
+  useEffect(() => {
+    api.listRepositories().then((r) => {
+      setRepos(r.repositories);
+      const indexed = r.repositories.find((x) => x.status === "indexed");
+      if (indexed) setRepoId(indexed.id);
+    });
+  }, []);
 
   const runs: AgentRun[] = data?.runs ?? [];
 
