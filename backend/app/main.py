@@ -254,14 +254,20 @@ async def list_files(repo_id: str, pattern: str | None = None, limit: int = 500)
 @app.get("/api/repositories/{repo_id}/file")
 async def get_file(repo_id: str, path: str) -> dict[str, Any]:
     _require_repo(repo_id)
+    if not path.strip():
+        raise HTTPException(400, "path must not be empty")
     repo_root = Path(_require_repo(repo_id).root_path)
     target = (repo_root / path).resolve()
+    if target == repo_root.resolve():
+        raise HTTPException(400, "path must reference a file, not the repository root")
     try:
         target.relative_to(repo_root.resolve())
     except ValueError:
         raise HTTPException(400, f"path escapes repository root: {path}")
     if not target.exists():
         raise HTTPException(404, f"file not found: {path}")
+    if not target.is_file():
+        raise HTTPException(400, f"path is not a file: {path}")
     if target.stat().st_size > get_settings().max_index_file_size_bytes:
         raise HTTPException(413, "file too large to serve")
     data = target.read_bytes()
@@ -472,8 +478,14 @@ async def apply_patch(body: ApplyPatchRequest) -> dict[str, Any]:
     does not commit. Tests run only when requested.
     """
     repo = _require_repo(body.repository_id)
+    if not body.path.strip():
+        raise HTTPException(400, "path must not be empty")
     root = Path(repo.root_path).resolve()
     target = (root / body.path).resolve()
+    if target == root:
+        raise HTTPException(400, "path must reference a file, not the repository root")
+    if target.exists() and not target.is_file():
+        raise HTTPException(400, f"path is not a file: {body.path}")
     try:
         target.relative_to(root)
     except ValueError:

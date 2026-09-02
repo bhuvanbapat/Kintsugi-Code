@@ -46,12 +46,16 @@ class ToolContext:
         """Resolve rel_path inside repo root; block traversal outside it."""
         root = self.root.resolve()
         candidate = (root / rel_path).resolve()
+        if candidate == root:
+            raise ToolError("path must reference a file, not the repository root")
         try:
             candidate.relative_to(root)
         except ValueError:
             raise PathSecurityError(f"path escapes repository root: {rel_path}")
         if not candidate.exists():
             raise ToolError(f"path not found: {rel_path}")
+        if not candidate.is_file():
+            raise ToolError(f"path is not a file: {rel_path}")
         return candidate
 
 
@@ -90,10 +94,19 @@ class ToolRegistry:
             result = await tool.handler(ctx, args)
             return {"ok": True, "tool": name, "result": result}
         except ToolError as e:
-            return {"ok": False, "tool": name, "error": str(e)}
+            return {"ok": False, "tool": name, "error": _sanitize_error(str(e), ctx)}
         except Exception as e:  # noqa: BLE001
             log.warning("tool %s failed: %s", name, e)
-            return {"ok": False, "tool": name, "error": f"internal error: {e}"}
+            return {"ok": False, "tool": name, "error": _sanitize_error(f"internal error: {e}", ctx)}
+
+
+def _sanitize_error(message: str, ctx: ToolContext) -> str:
+    """Strip the absolute repository path from tool errors (info disclosure)."""
+    try:
+        root = str(ctx.root.resolve())
+        return message.replace(root, "<repo>")
+    except Exception:  # noqa: BLE001
+        return message
 
 
 # ---------------------------------------------------------------------------

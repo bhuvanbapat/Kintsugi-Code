@@ -167,6 +167,46 @@ def test_api_file_traversal_blocked(client, indexed_repo):
     assert r.status_code == 400
 
 
+def test_api_file_empty_and_directory_paths_blocked(client, indexed_repo):
+    # Empty path previously resolved to the repo root and crashed with a 500.
+    r = client.get(f"/api/repositories/{indexed_repo.id}/file", params={"path": ""})
+    assert r.status_code == 400
+    # A directory is not a file either.
+    r = client.get(f"/api/repositories/{indexed_repo.id}/file",
+                   params={"path": "services"})
+    assert r.status_code == 400
+
+
+def test_api_diff_apply_empty_and_directory_paths_blocked(client, indexed_repo):
+    r = client.post("/api/diff/apply", json={
+        "repository_id": indexed_repo.id, "path": "", "content": "x",
+    })
+    assert r.status_code == 400
+    r = client.post("/api/diff/apply", json={
+        "repository_id": indexed_repo.id, "path": "services", "content": "x",
+    })
+    assert r.status_code == 400
+
+
+@pytest.mark.asyncio
+async def test_tool_rejects_directory_and_root_reads(indexed_repo, temp_store, sample_repo_copy):
+    from app.tools.registry import ToolContext, build_default_registry
+
+    registry = build_default_registry()
+    ctx = ToolContext(repository=indexed_repo, store=temp_store,
+                      root=sample_repo_copy.resolve())
+    # directory read must be a structured error, not an OS exception
+    result = await registry.execute("read_file", ctx, {"path": "services"})
+    assert result["ok"] is False
+    assert "not a file" in result["error"]
+    # repo root itself must be rejected
+    result = await registry.execute("read_file", ctx, {"path": "."})
+    assert result["ok"] is False
+    # errors must not leak absolute host paths
+    if not result["ok"] and result.get("error"):
+        assert ":\\" not in result["error"] and str(sample_repo_copy.drive) not in result["error"]
+
+
 def test_api_diff_apply_rollback(client, indexed_repo, sample_repo_copy):
     """Applying a patch that breaks tests must roll back."""
     bad_content = "syntax error !!! ("
