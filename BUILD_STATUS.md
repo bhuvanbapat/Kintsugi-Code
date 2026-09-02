@@ -1,19 +1,19 @@
 # BUILD STATUS — CodeForge
 
-Last updated: 2026-09-02 · Overall: **COMPLETE — all systems verified**
+Last updated: 2026-09-02 (post dead-code cleanup round) · Overall: **COMPLETE — all systems verified**
 
 ## Phases
 
 - [x] Environment inspection (Python 3.13, Node 24, Git 2.55, Docker 29)
 - [x] OpenCode skill discovery (graphify skill loaded; relevant skills identified)
 - [x] Graphify discovery (v0.9.48 installed system-wide)
-- [x] Graphify integration (used via its skill; no separate opencode config needed — CLI + skill already present)
+- [x] Graphify integration (knowledge graph built: 597 nodes / 1467 edges / 34 communities)
 - [x] Foundation (FastAPI app, config, logging, React/Vite frontend)
 - [x] Backend (modular monolith: indexing, retrieval, llm, tools, agent, services, mcp)
 - [x] Frontend (12 screens, strict TS, production build)
 - [x] Repository scanner (ignore rules, classification, caps — tested)
 - [x] AST / tree-sitter (symbols, relationships, byte-offset fix — tested)
-- [x] Symbols + repository map (module pseudo-symbols, import resolution)
+- [x] Symbols + repository map (module pseudo-symbols, shared import resolver)
 - [x] Retrieval (FTS5 + BM25 fallback + symbol + importance — tested)
 - [x] AI provider abstraction (OpenAI-compatible + offline mock — tested)
 - [x] Mock mode (default, deterministic, evidence-grounded)
@@ -31,21 +31,35 @@ Last updated: 2026-09-02 · Overall: **COMPLETE — all systems verified**
 - [x] CI (GitHub Actions: pytest + evaluation + tsc + build)
 - [x] Documentation (README, ARCHITECTURE, SECURITY, EVALUATION, MCP, DEMO,
       RESUME_NOTES, INTERVIEW_GUIDE, CONTRIBUTING, CHANGELOG, 7 ADRs)
+- [x] Git repository initialized, clean initial commit (no artifacts/secrets)
 - [x] Final QA (full 16-step e2e demo ALL PASS; 34/34 backend tests;
       frontend typecheck+build clean; all 12 routes HTTP 200; proxy OK)
 
-## Verification log (latest run)
+## Dead-code cleanup round (2026-09-02)
+
+Swept the entire codebase; removed: unused `PlannedChange`/`TestResult`
+models, `_PythonFallbackParser` (dead), `_ts_available` flag,
+`extract_symbols_async` wrapper, `asyncio_wait_for` class hack (now plain
+asyncio), unused `store_file_content`, no-op tool-filter line, duplicate
+module-resolver (consolidated into `indexing/language.resolve_module_path`),
+4 unused frontend API wrappers, leftover imports/vars in tests+scripts.
+Fixed real bug found during sweep: SQLite default path resolved to
+`backend/app/` instead of `backend/` (config.py parents index).
+
+## Verification log (post-cleanup run)
 
 | Check | Result |
 |---|---|
 | Backend pytest | 34 passed |
-| MCP tests | 6 passed (included above) |
+| Ruff (app + tests + scripts) | All checks passed |
+| Dead-code scan | 0 candidates remaining |
 | Evaluation benchmark | 8/8, mean recall 0.875 |
 | E2E demo (live API, 16 steps) | ALL PASS |
 | MCP stdio round-trip (subprocess) | ALL PASS |
 | Frontend `tsc -b --noEmit` | 0 errors |
-| Frontend `vite build` | success (251KB js / 79KB gzip) |
-| Frontend routes (12) + /api proxy | all 200 |
+| Frontend `vite build` | success |
+| Evaluation via live API (`/api/evaluation/run`) | 200, 8/8 |
+| Git commit artifact scan | 0 db/venv/node_modules files, 0 secrets |
 | Sample repo pytest | 6 passed, 1 failed (intentional — by design) |
 
 ## Known limitations
