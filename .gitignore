@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Databases / state
+backend/codeforge.db
+backend/**/codeforge.db*
+*.sqlite
+
+# Node
+node_modules/
+frontend/dist/
+frontend/vite.log
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+mcp_servers.json
+
+# Graphify outputs (regenerable; keep the report? see docs)
+graphify-out/cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
