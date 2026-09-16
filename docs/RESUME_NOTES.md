@@ -1,4 +1,4 @@
-# CodeForge — Résumé Notes
+# Kintsugi-Code — Résumé Notes
 
 ## One-line description
 Built an AI-assisted software engineering workspace that indexes repositories
@@ -78,3 +78,4 @@ MCP (JSON-RPC 2.0 stdio) · Graphify (dev-time knowledge graph)
 - Mock provider answers are templated, not prose.
 - Import→file resolution is heuristic; no call-graph extraction yet.
 - No auth on the local API (single-user, local-only tool).
+

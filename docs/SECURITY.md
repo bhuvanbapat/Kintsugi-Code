@@ -1,4 +1,4 @@
-# CodeForge — Security
+# Kintsugi-Code — Security
 
 ## Threat model
 
@@ -7,7 +7,7 @@ Attacker: malicious content inside an imported repository (untrusted input).
 
 | Threat | Vector | Mitigation | Verified by |
 |---|---|---|---|
-| Arbitrary code execution | repo scripts, package hooks | CodeForge never runs repo code; only allow-listed git/test commands — the dangerous-command policy is enforced at the subprocess execution boundary (`_run_command`, TestRunner) | test_dangerous_command_policy, test_dangerous_command_policy_enforced_in_production_path |
+| Arbitrary code execution | repo scripts, package hooks | Kintsugi-Code never runs repo code; only allow-listed git/test commands — the dangerous-command policy is enforced at the subprocess execution boundary (`_run_command`, TestRunner) | test_dangerous_command_policy, test_dangerous_command_policy_enforced_in_production_path |
 | Path traversal | `../` in tool args or API | every path resolved and `relative_to(repo_root)` checked | test_tool_path_security, test_api_file_traversal_blocked |
 | Command injection | test scope strings | scope appended to a fixed argv list; `shell=False` everywhere | review + code path (no string-built commands) |
 | Dangerous commands | crafted scope | regex policy blocks rm -rf / curl\|sh / fork bombs | test_dangerous_command_policy |
@@ -61,3 +61,4 @@ preserved (`API_KEY=[REDACTED_SECRET]`) so surrounding code stays readable.
 
 Security issues: open a GitHub issue with the `security` label; do not post
 exploit details publicly.
+

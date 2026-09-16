@@ -26,13 +26,13 @@ def test_env_file_is_actually_loaded(tmp_path, monkeypatch) -> None:
     stray = backend / "app" / ".env"
     created = []
     try:
-        env_file.write_text("CODEFORGE_LOG_LEVEL=FROM_BACKEND_ENV\n", encoding="utf-8")
+        env_file.write_text("Kintsugi-Code_LOG_LEVEL=FROM_BACKEND_ENV\n", encoding="utf-8")
         created.append(env_file)
         if not stray.exists():
             stray.parent.mkdir(parents=True, exist_ok=True)
-            stray.write_text("CODEFORGE_LOG_LEVEL=FROM_APP_STRAY\n", encoding="utf-8")
+            stray.write_text("Kintsugi-Code_LOG_LEVEL=FROM_APP_STRAY\n", encoding="utf-8")
             created.append(stray)
-        monkeypatch.delenv("CODEFORGE_LOG_LEVEL", raising=False)
+        monkeypatch.delenv("Kintsugi-Code_LOG_LEVEL", raising=False)
         s = Settings()
         assert s.log_level == "FROM_BACKEND_ENV", (
             f"backend/.env not loaded or overridden: got {s.log_level}"
@@ -50,11 +50,12 @@ def test_env_vars_take_precedence_over_env_file(tmp_path, monkeypatch) -> None:
     wrote = False
     try:
         if not env_file.exists():
-            env_file.write_text("CODEFORGE_LOG_LEVEL=FROM_FILE\n", encoding="utf-8")
+            env_file.write_text("Kintsugi-Code_LOG_LEVEL=FROM_FILE\n", encoding="utf-8")
             wrote = True
-        monkeypatch.setenv("CODEFORGE_LOG_LEVEL", "FROM_PROCESS_ENV")
+        monkeypatch.setenv("Kintsugi-Code_LOG_LEVEL", "FROM_PROCESS_ENV")
         s = Settings()
         assert s.log_level == "FROM_PROCESS_ENV"
     finally:
         if wrote:
             env_file.unlink(missing_ok=True)
+

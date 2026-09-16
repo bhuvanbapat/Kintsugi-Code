@@ -1,9 +1,9 @@
 ---
-name: codeforge-dev
-description: Project-local conventions for working on CodeForge itself — run backend tests and evaluation, apply a controlled patch with test validation, and verify the e2e workflow. Use when developing, testing, or changing this repository.
+name: Kintsugi-Code-dev
+description: Project-local conventions for working on Kintsugi-Code itself — run backend tests and evaluation, apply a controlled patch with test validation, and verify the e2e workflow. Use when developing, testing, or changing this repository.
 ---
 
-# CodeForge development skill
+# Kintsugi-Code development skill
 
 Conventions for working on this codebase.
 
@@ -44,3 +44,4 @@ Full end-to-end (backend must be running on :8000):
    count mismatches — tests catch them now).
 5. Mock provider must stay offline-deterministic and compose only from
    retrieval context (ADR-004).
+

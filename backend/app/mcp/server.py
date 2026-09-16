@@ -1,9 +1,9 @@
-"""CodeForge MCP server — exposes CodeForge repository tools over the
+"""Kintsugi-Code MCP server — exposes Kintsugi-Code repository tools over the
 Model Context Protocol (JSON-RPC 2.0 over stdio).
 
 Implements the core MCP surface: initialize, tools/list, tools/call with a
 configurable active repository. Any MCP client (Claude, OpenCode, etc.) can
-attach and use CodeForge's read-only repository intelligence tools.
+attach and use Kintsugi-Code's read-only repository intelligence tools.
 
 Run:  python -m app.mcp.server
 """
@@ -19,7 +19,7 @@ from app.services.store import get_store
 from app.tools.registry import ToolContext, build_default_registry
 
 PROTOCOL_VERSION = "2024-11-05"
-SERVER_INFO = {"name": "codeforge", "version": "0.1.0"}
+SERVER_INFO = {"name": "Kintsugi-Code", "version": "0.1.0"}
 
 # MCP-exposed tools: name -> (description, input schema, backend tool name)
 MCP_TOOLS: dict[str, dict[str, Any]] = {
@@ -98,7 +98,7 @@ class MCPServer:
         if self.active_repo_id is None:
             raise ValueError(
                 "no active repository — call the set_repository tool first "
-                "or set CODEFORGE_MCP_REPO_ID"
+                "or set Kintsugi-Code_MCP_REPO_ID"
             )
         repo = self.store.get_repository(self.active_repo_id)
         if repo is None:
@@ -116,7 +116,7 @@ class MCPServer:
         tools = [
             {
                 "name": "set_repository",
-                "description": "Set the active CodeForge repository by id.",
+                "description": "Set the active Kintsugi-Code repository by id.",
                 "inputSchema": {
                     "type": "object",
                     "properties": {"repository_id": {"type": "string"}},
@@ -202,7 +202,7 @@ async def serve_stdio() -> None:
     server = MCPServer()
     import os
 
-    env_repo = os.environ.get("CODEFORGE_MCP_REPO_ID")
+    env_repo = os.environ.get("Kintsugi-Code_MCP_REPO_ID")
     if env_repo:
         server.active_repo_id = env_repo
     for line in sys.stdin:
@@ -223,3 +223,4 @@ if __name__ == "__main__":
     import asyncio
 
     asyncio.run(serve_stdio())
+

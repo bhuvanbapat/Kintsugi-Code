@@ -13,20 +13,20 @@ class Settings(BaseSettings):
         # backend/.env (module is app/core/config.py → parents[2] = backend/)
         env_file=str(Path(__file__).resolve().parents[2] / ".env"),
         env_file_encoding="utf-8",
-        env_prefix="CODEFORGE_",
+        env_prefix="Kintsugi-Code_",
         extra="ignore",
     )
 
-    app_name: str = "CodeForge"
+    app_name: str = "Kintsugi-Code"
     app_version: str = "0.1.0"
     environment: Literal["development", "production", "test"] = "development"
     log_level: str = "INFO"
 
     database_url: str = Field(
-        default_factory=lambda: f"sqlite:///{Path(__file__).resolve().parents[2] / 'codeforge.db'}"
+        default_factory=lambda: f"sqlite:///{Path(__file__).resolve().parents[2] / 'Kintsugi-Code.db'}"
     )
     sqlite_path: str = Field(
-        default_factory=lambda: str(Path(__file__).resolve().parents[2] / "codeforge.db")
+        default_factory=lambda: str(Path(__file__).resolve().parents[2] / "Kintsugi-Code.db")
     )
 
     llm_provider: Literal["openai", "mock"] = "mock"
@@ -63,3 +63,4 @@ def get_settings() -> Settings:
 def reset_settings() -> None:
     global _settings
     _settings = None
+

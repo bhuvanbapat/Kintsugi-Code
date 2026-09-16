@@ -1,4 +1,4 @@
-"""Tests for the CodeForge MCP server (stdio JSON-RPC)."""
+"""Tests for the Kintsugi-Code MCP server (stdio JSON-RPC)."""
 from __future__ import annotations
 
 import json
@@ -13,7 +13,7 @@ async def test_mcp_initialize(indexed_repo, temp_store):
     server = MCPServer()
     server.store = temp_store
     resp = await server.dispatch({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}})
-    assert resp["result"]["serverInfo"]["name"] == "codeforge"
+    assert resp["result"]["serverInfo"]["name"] == "Kintsugi-Code"
     assert "tools" in resp["result"]["capabilities"]
 
 
@@ -89,3 +89,4 @@ async def test_mcp_client_against_our_server(indexed_repo, temp_store):
     client = MCPClient("python", ["-c", "print()"])
     await client.start()
     await client.stop()
+

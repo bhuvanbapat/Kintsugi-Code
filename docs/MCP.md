@@ -1,14 +1,14 @@
-# CodeForge — MCP Integration
+# Kintsugi-Code — MCP Integration
 
 ## Purpose
 
 The [Model Context Protocol](https://modelcontextprotocol.io) standardizes how
-LLM applications expose and consume tools. CodeForge participates on both
+LLM applications expose and consume tools. Kintsugi-Code participates on both
 sides:
 
 1. **Server** — external MCP clients (Claude Desktop, OpenCode, IDEs) can use
-   CodeForge's repository intelligence tools.
-2. **Client** — CodeForge can call tools exposed by other MCP servers
+   Kintsugi-Code's repository intelligence tools.
+2. **Client** — Kintsugi-Code can call tools exposed by other MCP servers
    (e.g. a graphify server), keeping the integration layer modular.
 
 ## Protocol level
@@ -28,7 +28,7 @@ Implements the MCP 2024-11-05 base surface over the stdio transport
 cd backend
 .venv\Scripts\python -m app.mcp.server
 # optional: preselect a repository
-set CODEFORGE_MCP_REPO_ID=<repo id>
+set Kintsugi-Code_MCP_REPO_ID=<repo id>
 ```
 
 ### Exposed tools
@@ -80,3 +80,4 @@ by default) — loaded by `load_mcp_config()`.
 - One active repository per server process (switchable via `set_repository`).
 - Windows-first testing; stdio line framing is platform-agnostic but CI runs
   Linux, where the same code path is exercised via pytest.
+

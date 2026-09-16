@@ -3,7 +3,7 @@
 Date: 2026-09-02 · Status: accepted
 
 ## Context
-CodeForge needs scanning, AST parsing, retrieval, an agent, tools, MCP, and a
+Kintsugi-Code needs scanning, AST parsing, retrieval, an agent, tools, MCP, and a
 web UI. Options: microservices, an agent framework, or a modular monolith.
 
 ## Decision
@@ -17,3 +17,4 @@ agent framework.
 + Deployment is trivial (uvicorn + static build, or one compose file).
 + Module boundaries are still enforced by package structure and tests.
 − Single-node scaling ceiling — acceptable for a local-first developer tool.
+

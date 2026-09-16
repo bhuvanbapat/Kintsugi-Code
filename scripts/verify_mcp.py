@@ -1,4 +1,4 @@
-"""Verify the CodeForge MCP server over real stdio (subprocess round-trip)."""
+"""Verify the Kintsugi-Code MCP server over real stdio (subprocess round-trip)."""
 import json
 import pathlib
 import subprocess
@@ -42,7 +42,7 @@ def main() -> int:
             return json.loads(line)
 
         r = send({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}})
-        assert r["result"]["serverInfo"]["name"] == "codeforge", r
+        assert r["result"]["serverInfo"]["name"] == "Kintsugi-Code", r
         print("PASS initialize ->", r["result"]["serverInfo"])
 
         r = send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
@@ -79,3 +79,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+

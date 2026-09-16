@@ -41,7 +41,7 @@ LANGUAGE_BY_EXTENSION: dict[str, str] = {
     ".txt": "text",
 }
 
-# Languages with structural (AST) support in CodeForge.
+# Languages with structural (AST) support in Kintsugi-Code.
 AST_LANGUAGES = {"python", "javascript", "typescript"}
 
 TEST_PATH_MARKERS = ("test", "tests", "spec", "__tests__")
@@ -112,3 +112,4 @@ def resolve_module_path(module_name: str, file_set: set[str]) -> str | None:
         if f.replace("/", ".").endswith(module_name):
             return f
     return None
+

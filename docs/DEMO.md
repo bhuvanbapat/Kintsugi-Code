@@ -1,4 +1,4 @@
-# CodeForge — Demo Script
+# Kintsugi-Code — Demo Script
 
 Everything below was executed and verified (see `scripts/e2e_demo.py`, which
 automates these exact steps against a live backend — all 16 checks PASS).
@@ -78,3 +78,4 @@ cd backend && .venv\Scripts\python.exe scripts\run_evaluation.py   # 8/8 cases
 The default provider is the deterministic mock: it composes answers from
 retrieval evidence (files, symbols, citations passed as context) without
 any network or key. Every capability above is demonstrable offline.
+

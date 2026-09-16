@@ -1,4 +1,4 @@
-# Contributing to CodeForge
+# Contributing to Kintsugi-Code
 
 Thanks for considering a contribution!
 
@@ -49,3 +49,4 @@ the sample repo). Never tune expectations to current retrieval behavior.
 
 Conventional commits: `feat:`, `fix:`, `docs:`, `test:`, `refactor:`,
 `security:`. Keep commits runnable (tests green at each commit).
+

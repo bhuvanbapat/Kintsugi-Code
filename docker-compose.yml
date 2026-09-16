@@ -2,12 +2,12 @@ services:
   backend:
     build: ./backend
     environment:
-      - CODEFORGE_ENVIRONMENT=production
-      - CODEFORGE_LLM_PROVIDER=mock
-      - CODEFORGE_LLM_BASE_URL=https://api.openai.com/v1
-      - CODEFORGE_LLM_MODEL=gpt-4o-mini
+      - Kintsugi-Code_ENVIRONMENT=production
+      - Kintsugi-Code_LLM_PROVIDER=mock
+      - Kintsugi-Code_LLM_BASE_URL=https://api.openai.com/v1
+      - Kintsugi-Code_LLM_MODEL=gpt-4o-mini
     volumes:
-      - codeforge-data:/app/data
+      - Kintsugi-Code-data:/app/data
     ports:
       - "8000:8000"
 
@@ -19,4 +19,5 @@ services:
       - "8080:80"
 
 volumes:
-  codeforge-data:
+  Kintsugi-Code-data:
+

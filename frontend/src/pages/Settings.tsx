@@ -148,8 +148,9 @@ export default function Settings() {
 
       <div className="dim" style={{ marginTop: 14, fontSize: 12 }}>
         Note: settings persist for the running backend process; defaults come from
-        environment variables (<code>CODEFORGE_*</code>) set in <code>.env</code>.
+        environment variables (<code>Kintsugi-Code_*</code>) set in <code>.env</code>.
       </div>
     </div>
   );
 }
+

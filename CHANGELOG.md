@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to CodeForge. Format: Keep a Changelog; versioning: semver.
+All notable changes to Kintsugi-Code. Format: Keep a Changelog; versioning: semver.
 
 ## [0.1.1] - 2026-09-03 — post-audit remediation
 
@@ -96,3 +96,4 @@ Initial release.
 - Symbol ranking regression: generic names out-ranking specific ones
   (caught by evaluation case sym-2, fixed with rarity weighting).
 - Agent state machine blocking TESTING → ANALYZING composition path.
+

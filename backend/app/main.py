@@ -1,4 +1,4 @@
-"""FastAPI application — all API routes for CodeForge."""
+"""FastAPI application — all API routes for Kintsugi-Code."""
 from __future__ import annotations
 
 import asyncio
@@ -33,7 +33,7 @@ install_logging()
 log = get_logger(__name__)
 
 app = FastAPI(
-    title="CodeForge API",
+    title="Kintsugi-Code API",
     version=get_settings().app_version,
     description="AI software engineering workspace — repository-aware, evidence-backed.",
 )
@@ -595,3 +595,4 @@ async def get_conversation(conv_id: str) -> dict[str, Any]:
     if conv is None:
         raise HTTPException(404, f"conversation not found: {conv_id}")
     return {"conversation": conv.model_dump()}
+

@@ -1,4 +1,4 @@
-# CodeForge — Evaluation
+# Kintsugi-Code — Evaluation
 
 ## Method
 
@@ -60,3 +60,4 @@ measurement (pure in-memory BM25 over a small repo), not a placeholder.
   the mock provider's answers are deterministic templates).
 - End-to-end fix quality on arbitrary repos (the single scripted e2e flow
   is in scripts/e2e_demo.py).
+

@@ -5,7 +5,7 @@ Supports:
 - MockProvider: deterministic, offline answers built from retrieved evidence.
 
 Configuration: LLM_PROVIDER / LLM_BASE_URL / LLM_MODEL / LLM_API_KEY
-(CODEFORGE_ env prefix). Never hard-codes credentials.
+(Kintsugi-Code_ env prefix). Never hard-codes credentials.
 """
 from __future__ import annotations
 
@@ -198,3 +198,4 @@ def get_provider() -> LLMProvider:
 def reset_provider() -> None:
     global _provider
     _provider = None
+

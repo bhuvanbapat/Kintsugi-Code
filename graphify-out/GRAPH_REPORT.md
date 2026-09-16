@@ -1,4 +1,4 @@
-# Graph Report - CodeForge  (2026-09-03)
+# Graph Report - Kintsugi-Code  (2026-09-03)
 
 ## Corpus Check
 - 100 files · ~44,258 words
@@ -39,19 +39,19 @@
 - adversarial_api.py
 - refresh_graph.py
 - campus-tasks
-- codeforge-backend
+- Kintsugi-Code-backend
 - Components
 - The 10 demo workflows
-- CodeForge
-- CodeForge — Interview Guide
-- BUILD STATUS — CodeForge
-- CodeForge — Résumé Notes
-- CodeForge — MCP Integration
-- CodeForge — Security
+- Kintsugi-Code
+- Kintsugi-Code — Interview Guide
+- BUILD STATUS — Kintsugi-Code
+- Kintsugi-Code — Résumé Notes
+- Kintsugi-Code — MCP Integration
+- Kintsugi-Code — Security
 - [0.1.0] - 2026-09-02
-- Contributing to CodeForge
+- Contributing to Kintsugi-Code
 - ADR-003: Hybrid retrieval without a vector database
-- CodeForge — Evaluation
+- Kintsugi-Code — Evaluation
 - ADR-001: Modular monolith
 - ADR-002: Tree-sitter for structural parsing (with stdlib-ast fallback)
 - ADR-004: Provider abstraction with a deterministic offline mock
@@ -59,7 +59,7 @@
 - ADR-006: Local-first demo mode as default
 - ADR-007: MCP as the integration layer (tools-first, stdio)
 - Campus Task Management (sample_repo)
-- CodeForge development skill
+- Kintsugi-Code development skill
 
 ## God Nodes (most connected - your core abstractions)
 1. `Store` - 51 edges
@@ -132,7 +132,7 @@ Nodes (9): Conversation, AgentRun, Any, FileEntry, Repository, Symbol, Thread-lo
 
 ### Community 10 - "MCPServer"
 Cohesion: 0.11
-Nodes (16): MCPClient, Minimal stdio MCP client for tool discovery and invocation., MCPServer, Any, CodeForge MCP server — exposes CodeForge repository tools over the Model…, Line-delimited JSON-RPC over stdin/stdout (MCP stdio transport)., serve_stdio(), asyncio (+8 more)
+Nodes (16): MCPClient, Minimal stdio MCP client for tool discovery and invocation., MCPServer, Any, Kintsugi-Code MCP server — exposes Kintsugi-Code repository tools over the Model…, Line-delimited JSON-RPC over stdin/stdout (MCP stdio transport)., serve_stdio(), asyncio (+8 more)
 
 ### Community 11 - "ast_parser.py"
 Cohesion: 0.17
@@ -148,7 +148,7 @@ Nodes (23): Confidence, EvaluationCase, EvaluationResult, Message, BaseModel, Do
 
 ### Community 14 - "3. The backend — module by module, line counts included"
 Cohesion: 0.06
-Nodes (35): 10. Documentation set (all committed), 11. Test inventory (64 functions → 71 pytest cases), 12. Infrastructure, 13. Project-local OpenCode skill, 14. Known limitations (honest, documented everywhere), 15. How to experience it in 90 seconds, 1. What CodeForge IS, 2. Repository map — every directory and why it exists (+27 more)
+Nodes (35): 10. Documentation set (all committed), 11. Test inventory (64 functions → 71 pytest cases), 12. Infrastructure, 13. Project-local OpenCode skill, 14. Known limitations (honest, documented everywhere), 15. How to experience it in 90 seconds, 1. What Kintsugi-Code IS, 2. Repository map — every directory and why it exists (+27 more)
 
 ### Community 15 - "test_scanner_secrets.py"
 Cohesion: 0.17
@@ -172,7 +172,7 @@ Nodes (3): call(), main(), Final live verification: graph-symbols regression, ev
 
 ### Community 20 - "verify_mcp.py"
 Cohesion: 0.67
-Nodes (3): call_api(), main(), Verify the CodeForge MCP server over real stdio (subprocess round-trip).
+Nodes (3): call_api(), main(), Verify the Kintsugi-Code MCP server over real stdio (subprocess round-trip).
 
 ### Community 39 - "Components"
 Cohesion: 0.11
@@ -182,45 +182,45 @@ Nodes (17): 10. Persistence (backend/app/services/store), 1. Indexing pipeline (
 Cohesion: 0.12
 Nodes (15): 10. Show the agent trace, 1. Explain the architecture, 2. Locate authentication-equivalent functionality, 3. Find the dependency chain, 4. Find the intentional bug, 5. Generate an implementation plan, 6. Produce a diff, 7. Apply the controlled fix (+7 more)
 
-### Community 41 - "CodeForge"
+### Community 41 - "Kintsugi-Code"
 Cohesion: 0.12
-Nodes (15): Architecture, CodeForge, Configuration, Demo walkthrough, Docker, Evaluation results (measured, sample_repo benchmark), License, Limitations (+7 more)
+Nodes (15): Architecture, Kintsugi-Code, Configuration, Demo walkthrough, Docker, Evaluation results (measured, sample_repo benchmark), License, Limitations (+7 more)
 
-### Community 42 - "CodeForge — Interview Guide"
+### Community 42 - "Kintsugi-Code — Interview Guide"
 Cohesion: 0.15
-Nodes (12): Agent architecture, CodeForge — Interview Guide, Failure handling, Human oversight, Observability, RAG & evidence, Repository indexing & parsing, Retrieval & context (+4 more)
+Nodes (12): Agent architecture, Kintsugi-Code — Interview Guide, Failure handling, Human oversight, Observability, RAG & evidence, Repository indexing & parsing, Retrieval & context (+4 more)
 
-### Community 43 - "BUILD STATUS — CodeForge"
+### Community 43 - "BUILD STATUS — Kintsugi-Code"
 Cohesion: 0.20
-Nodes (9): Audit round (2026-09-02) — 8 defects found and fixed, BUILD STATUS — CodeForge, Completion round (2026-09-02), Dead-code cleanup round (2026-09-02), Known limitations, Phases, Post-audit remediation round (2026-09-03), Verification log (completion round) (+1 more)
+Nodes (9): Audit round (2026-09-02) — 8 defects found and fixed, BUILD STATUS — Kintsugi-Code, Completion round (2026-09-02), Dead-code cleanup round (2026-09-02), Known limitations, Phases, Post-audit remediation round (2026-09-03), Verification log (completion round) (+1 more)
 
-### Community 44 - "CodeForge — Résumé Notes"
+### Community 44 - "Kintsugi-Code — Résumé Notes"
 Cohesion: 0.20
-Nodes (9): Actual technology stack, Architecture discussion points, CodeForge — Résumé Notes, Five interview talking points, Measured metrics (reproducible), One-line description, Strongest technical capabilities, Three résumé bullet candidates (+1 more)
+Nodes (9): Actual technology stack, Architecture discussion points, Kintsugi-Code — Résumé Notes, Five interview talking points, Measured metrics (reproducible), One-line description, Strongest technical capabilities, Three résumé bullet candidates (+1 more)
 
-### Community 45 - "CodeForge — MCP Integration"
+### Community 45 - "Kintsugi-Code — MCP Integration"
 Cohesion: 0.22
-Nodes (8): Client usage, CodeForge — MCP Integration, Exposed tools, Limitations, Protocol level, Purpose, Running the server, Security considerations
+Nodes (8): Client usage, Kintsugi-Code — MCP Integration, Exposed tools, Limitations, Protocol level, Purpose, Running the server, Security considerations
 
-### Community 46 - "CodeForge — Security"
+### Community 46 - "Kintsugi-Code — Security"
 Cohesion: 0.25
-Nodes (7): CodeForge — Security, Input boundaries, Reporting, Secret detection patterns, Secret-storage remediation for existing databases, Threat model, What is deliberately NOT protected against
+Nodes (7): Kintsugi-Code — Security, Input boundaries, Reporting, Secret detection patterns, Secret-storage remediation for existing databases, Threat model, What is deliberately NOT protected against
 
 ### Community 47 - "[0.1.0] - 2026-09-02"
 Cohesion: 0.29
 Nodes (6): [0.1.0] - 2026-09-02, [0.1.1] - 2026-09-03 — post-audit remediation, Added, Changelog, Fixed, Fixed during development (regression-protected)
 
-### Community 48 - "Contributing to CodeForge"
+### Community 48 - "Contributing to Kintsugi-Code"
 Cohesion: 0.29
-Nodes (6): Adding a tool, Adding an evaluation case, Commit style, Contributing to CodeForge, Development setup, Ground rules
+Nodes (6): Adding a tool, Adding an evaluation case, Commit style, Contributing to Kintsugi-Code, Development setup, Ground rules
 
 ### Community 49 - "ADR-003: Hybrid retrieval without a vector database"
 Cohesion: 0.33
 Nodes (5): ADR-003: Hybrid retrieval without a vector database, Amendment (FTS5 removed), Consequences, Context, Decision
 
-### Community 50 - "CodeForge — Evaluation"
+### Community 50 - "Kintsugi-Code — Evaluation"
 Cohesion: 0.33
-Nodes (5): CodeForge — Evaluation, Honest notes on the numbers, Measured results (this build), Method, What is NOT measured
+Nodes (5): Kintsugi-Code — Evaluation, Honest notes on the numbers, Measured results (this build), Method, What is NOT measured
 
 ### Community 51 - "ADR-001: Modular monolith"
 Cohesion: 0.40
@@ -250,12 +250,12 @@ Nodes (4): ADR-007: MCP as the integration layer (tools-first, stdio), Consequen
 Cohesion: 0.40
 Nodes (4): Architecture, Campus Task Management (sample_repo), Running tests, The intentional bug
 
-### Community 58 - "CodeForge development skill"
+### Community 58 - "Kintsugi-Code development skill"
 Cohesion: 0.50
-Nodes (3): CodeForge development skill, Commands, Rules
+Nodes (3): Kintsugi-Code development skill, Commands, Rules
 
 ## Knowledge Gaps
-- **196 isolated node(s):** `codeforge-backend`, `campus-tasks`, `name`, `private`, `version` (+191 more)
+- **196 isolated node(s):** `Kintsugi-Code-backend`, `campus-tasks`, `name`, `private`, `version` (+191 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 

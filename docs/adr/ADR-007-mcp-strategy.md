@@ -3,7 +3,7 @@
 Date: 2026-09-02 · Status: accepted
 
 ## Context
-CodeForge should both expose its capabilities to external AI clients and
+Kintsugi-Code should both expose its capabilities to external AI clients and
 consume external tools — without locking to one assistant vendor. The MCP
 specification standardizes this, but its surface keeps evolving
 (resources, prompts, sampling, …).
@@ -23,3 +23,4 @@ plus `set_repository`. Consume external servers through a small stdio
   MCP.
 − Base-protocol only for now — resources/prompts omitted deliberately and
   documented in docs/MCP.md rather than half-implemented.
+

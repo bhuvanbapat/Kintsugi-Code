@@ -1,4 +1,4 @@
-# CodeForge
+# Kintsugi-Code
 
 An AI-assisted software engineering workspace: a repository-aware coding agent
 that indexes code structurally, answers questions with file:line evidence,
@@ -21,7 +21,7 @@ back automatically if tests break.
 | Test runner | Detects pytest/npm/go/cargo/maven/gradle; captures exit code, stdout, parse failures |
 | Failure diagnosis | Failing tests → retrieve related code → diagnose → propose fix |
 | Evaluation | 8-case benchmark measuring real retrieval recall/precision/latency |
-| MCP integration | CodeForge is both an MCP server (expose tools) and client (consume tools) |
+| MCP integration | Kintsugi-Code is both an MCP server (expose tools) and client (consume tools) |
 | Observability | Per-tool timings, per-run trace viewer, token usage when provider reports it |
 
 ## Architecture
@@ -77,16 +77,16 @@ reproduction of all steps.
 
 ## Configuration
 
-Environment variables (prefix `CODEFORGE_`, see `.env.example`):
+Environment variables (prefix `Kintsugi-Code_`, see `.env.example`):
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `CODEFORGE_LLM_PROVIDER` | `mock` | `mock` (offline) or `openai` (any OpenAI-compatible endpoint) |
-| `CODEFORGE_LLM_BASE_URL` | `https://api.openai.com/v1` | works with Ollama/vLLM/LM Studio too |
-| `CODEFORGE_LLM_MODEL` | `gpt-4o-mini` | model name |
-| `CODEFORGE_LLM_API_KEY` | *(empty)* | never logged, never committed |
-| `CODEFORGE_CONTEXT_BUDGET_TOKENS` | `8000` | context engine budget |
-| `CODEFORGE_AGENT_MAX_ITERATIONS` | `12` | agent loop bound |
+| `Kintsugi-Code_LLM_PROVIDER` | `mock` | `mock` (offline) or `openai` (any OpenAI-compatible endpoint) |
+| `Kintsugi-Code_LLM_BASE_URL` | `https://api.openai.com/v1` | works with Ollama/vLLM/LM Studio too |
+| `Kintsugi-Code_LLM_MODEL` | `gpt-4o-mini` | model name |
+| `Kintsugi-Code_LLM_API_KEY` | *(empty)* | never logged, never committed |
+| `Kintsugi-Code_CONTEXT_BUDGET_TOKENS` | `8000` | context engine budget |
+| `Kintsugi-Code_AGENT_MAX_ITERATIONS` | `12` | agent loop bound |
 
 ## Testing
 
@@ -125,7 +125,7 @@ Evaluation page or `backend/scripts/run_evaluation.py`. Nothing is simulated.
 
 ## MCP
 
-CodeForge speaks MCP over stdio (JSON-RPC 2.0): run
+Kintsugi-Code speaks MCP over stdio (JSON-RPC 2.0): run
 `python -m app.mcp.server` in `backend/` and any MCP client can call
 `set_repository`, `search_code`, `get_symbol`, `get_repository_map`,
 `get_dependencies`, `find_path`, `list_files`, `read_file` (8 read-only
@@ -170,3 +170,4 @@ graphify-out/  knowledge graph of this codebase (graph.html, GRAPH_REPORT.md)
 ## License
 
 MIT — see `LICENSE`.
+

@@ -173,7 +173,7 @@ export default function Workspace() {
                 marginBottom: 4,
               }}
             >
-              {m.role === "user" ? "YOU" : "CODEFORGE"}
+              {m.role === "user" ? "YOU" : "Kintsugi-Code"}
             </div>
             <div style={{ whiteSpace: "pre-wrap" }}>
               {m.content}
@@ -203,3 +203,4 @@ export default function Workspace() {
     </div>
   );
 }
+

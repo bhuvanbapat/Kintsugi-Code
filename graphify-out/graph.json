@@ -4908,12 +4908,12 @@
     },
     {
       "id": "backend_app_mcp_client_rationale_1",
-      "label": "MCP client: connect CodeForge to external MCP servers over stdio. Lets the\u2026",
+      "label": "MCP client: connect Kintsugi-Code to external MCP servers over stdio. Lets the\u2026",
       "_origin": "ast",
       "community": 0,
       "community_name": "logging.py",
       "file_type": "rationale",
-      "norm_label": "mcp client: connect codeforge to external mcp servers over stdio. lets the...",
+      "norm_label": "mcp client: connect Kintsugi-Code to external mcp servers over stdio. lets the...",
       "source_file": "backend/app/mcp/client.py",
       "source_location": "L1"
     },
@@ -5337,12 +5337,12 @@
     },
     {
       "id": "backend_app_mcp_server_rationale_1",
-      "label": "CodeForge MCP server \u2014 exposes CodeForge repository tools over the Model\u2026",
+      "label": "Kintsugi-Code MCP server \u2014 exposes Kintsugi-Code repository tools over the Model\u2026",
       "_origin": "ast",
       "community": 10,
       "community_name": "MCPServer",
       "file_type": "rationale",
-      "norm_label": "codeforge mcp server \u2014 exposes codeforge repository tools over the model...",
+      "norm_label": "Kintsugi-Code mcp server \u2014 exposes Kintsugi-Code repository tools over the model...",
       "source_file": "backend/app/mcp/server.py",
       "source_location": "L1"
     },
@@ -5359,12 +5359,12 @@
     },
     {
       "id": "backend_tests_test_mcp_rationale_1",
-      "label": "Tests for the CodeForge MCP server (stdio JSON-RPC).",
+      "label": "Tests for the Kintsugi-Code MCP server (stdio JSON-RPC).",
       "_origin": "ast",
       "community": 10,
       "community_name": "MCPServer",
       "file_type": "rationale",
-      "norm_label": "tests for the codeforge mcp server (stdio json-rpc).",
+      "norm_label": "tests for the Kintsugi-Code mcp server (stdio json-rpc).",
       "source_file": "backend/tests/test_mcp.py",
       "source_location": "L1"
     },
@@ -5970,14 +5970,14 @@
       "source_location": "L508"
     },
     {
-      "id": "project_reference_1_what_codeforge_is",
-      "label": "1. What CodeForge IS",
+      "id": "project_reference_1_what_Kintsugi-Code_is",
+      "label": "1. What Kintsugi-Code IS",
       "_origin": "ast",
       "community": 14,
       "community_name": "3. The backend \u2014 module by module, line counts included",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "1. what codeforge is",
+      "norm_label": "1. what Kintsugi-Code is",
       "source_file": "PROJECT_REFERENCE.md",
       "source_location": "L10"
     },
@@ -6270,14 +6270,14 @@
       "source_location": "L352"
     },
     {
-      "id": "project_reference_codeforge_the_complete_project_reference",
-      "label": "CodeForge \u2014 The Complete Project Reference",
+      "id": "project_reference_Kintsugi-Code_the_complete_project_reference",
+      "label": "Kintsugi-Code \u2014 The Complete Project Reference",
       "_origin": "ast",
       "community": 14,
       "community_name": "3. The backend \u2014 module by module, line counts included",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge \u2014 the complete project reference",
+      "norm_label": "Kintsugi-Code \u2014 the complete project reference",
       "source_file": "PROJECT_REFERENCE.md",
       "source_location": "L1"
     },
@@ -6913,12 +6913,12 @@
     },
     {
       "id": "scripts_verify_mcp_rationale_1",
-      "label": "Verify the CodeForge MCP server over real stdio (subprocess round-trip).",
+      "label": "Verify the Kintsugi-Code MCP server over real stdio (subprocess round-trip).",
       "_origin": "ast",
       "community": 20,
       "community_name": "verify_mcp.py",
       "file_type": "rationale",
-      "norm_label": "verify the codeforge mcp server over real stdio (subprocess round-trip).",
+      "norm_label": "verify the Kintsugi-Code mcp server over real stdio (subprocess round-trip).",
       "source_file": "scripts/verify_mcp.py",
       "source_location": "L1"
     },
@@ -7355,14 +7355,14 @@
       "version": "0.1.0"
     },
     {
-      "id": "pkg_codeforge_backend",
-      "label": "codeforge-backend",
+      "id": "pkg_Kintsugi-Code_backend",
+      "label": "Kintsugi-Code-backend",
       "_origin": "ast",
       "community": 38,
-      "community_name": "codeforge-backend",
+      "community_name": "Kintsugi-Code-backend",
       "ecosystem": "python",
       "file_type": "code",
-      "norm_label": "codeforge-backend",
+      "norm_label": "Kintsugi-Code-backend",
       "source_file": "backend/pyproject.toml",
       "source_location": "L1",
       "type": "package",
@@ -7501,14 +7501,14 @@
       "source_location": "L137"
     },
     {
-      "id": "docs_architecture_codeforge_architecture",
-      "label": "CodeForge \u2014 Architecture",
+      "id": "docs_architecture_Kintsugi-Code_architecture",
+      "label": "Kintsugi-Code \u2014 Architecture",
       "_origin": "ast",
       "community": 39,
       "community_name": "Components",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge \u2014 architecture",
+      "norm_label": "Kintsugi-Code \u2014 architecture",
       "source_file": "docs/ARCHITECTURE.md",
       "source_location": "L1"
     },
@@ -7663,12 +7663,12 @@
     },
     {
       "id": "backend_app_main_rationale_1",
-      "label": "FastAPI application \u2014 all API routes for CodeForge.",
+      "label": "FastAPI application \u2014 all API routes for Kintsugi-Code.",
       "_origin": "ast",
       "community": 4,
       "community_name": "main.py",
       "file_type": "rationale",
-      "norm_label": "fastapi application \u2014 all api routes for codeforge.",
+      "norm_label": "fastapi application \u2014 all api routes for Kintsugi-Code.",
       "source_file": "backend/app/main.py",
       "source_location": "L1"
     },
@@ -7839,14 +7839,14 @@
       "source_location": "L68"
     },
     {
-      "id": "docs_demo_codeforge_demo_script",
-      "label": "CodeForge \u2014 Demo Script",
+      "id": "docs_demo_Kintsugi-Code_demo_script",
+      "label": "Kintsugi-Code \u2014 Demo Script",
       "_origin": "ast",
       "community": 40,
       "community_name": "The 10 demo workflows",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge \u2014 demo script",
+      "norm_label": "Kintsugi-Code \u2014 demo script",
       "source_file": "docs/DEMO.md",
       "source_location": "L1"
     },
@@ -7891,7 +7891,7 @@
       "label": "README.md",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "readme.md",
@@ -7903,7 +7903,7 @@
       "label": "Architecture",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "architecture",
@@ -7911,14 +7911,14 @@
       "source_location": "L27"
     },
     {
-      "id": "readme_codeforge",
-      "label": "CodeForge",
+      "id": "readme_Kintsugi-Code",
+      "label": "Kintsugi-Code",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge",
+      "norm_label": "Kintsugi-Code",
       "source_file": "README.md",
       "source_location": "L1"
     },
@@ -7927,7 +7927,7 @@
       "label": "Configuration",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "configuration",
@@ -7939,7 +7939,7 @@
       "label": "Demo walkthrough",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "demo walkthrough",
@@ -7951,7 +7951,7 @@
       "label": "Docker",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "docker",
@@ -7963,7 +7963,7 @@
       "label": "Evaluation results (measured, sample_repo benchmark)",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "evaluation results (measured, sample_repo benchmark)",
@@ -7975,7 +7975,7 @@
       "label": "License",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "license",
@@ -7987,7 +7987,7 @@
       "label": "Limitations",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "limitations",
@@ -7999,7 +7999,7 @@
       "label": "MCP",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "mcp",
@@ -8011,7 +8011,7 @@
       "label": "Quick start",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "quick start",
@@ -8023,7 +8023,7 @@
       "label": "Repository layout",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "repository layout",
@@ -8035,7 +8035,7 @@
       "label": "Roadmap",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "roadmap",
@@ -8047,7 +8047,7 @@
       "label": "Security posture",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "security posture",
@@ -8059,7 +8059,7 @@
       "label": "Testing",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "testing",
@@ -8071,7 +8071,7 @@
       "label": "What it does",
       "_origin": "ast",
       "community": 41,
-      "community_name": "CodeForge",
+      "community_name": "Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "what it does",
@@ -8083,7 +8083,7 @@
       "label": "INTERVIEW_GUIDE.md",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "interview_guide.md",
@@ -8095,7 +8095,7 @@
       "label": "Agent architecture",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "agent architecture",
@@ -8103,14 +8103,14 @@
       "source_location": "L23"
     },
     {
-      "id": "docs_interview_guide_codeforge_interview_guide",
-      "label": "CodeForge \u2014 Interview Guide",
+      "id": "docs_interview_guide_Kintsugi-Code_interview_guide",
+      "label": "Kintsugi-Code \u2014 Interview Guide",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge \u2014 interview guide",
+      "norm_label": "Kintsugi-Code \u2014 interview guide",
       "source_file": "docs/INTERVIEW_GUIDE.md",
       "source_location": "L1"
     },
@@ -8119,7 +8119,7 @@
       "label": "Failure handling",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "failure handling",
@@ -8131,7 +8131,7 @@
       "label": "Human oversight",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "human oversight",
@@ -8143,7 +8143,7 @@
       "label": "Observability",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "observability",
@@ -8155,7 +8155,7 @@
       "label": "RAG & evidence",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "rag & evidence",
@@ -8167,7 +8167,7 @@
       "label": "Repository indexing & parsing",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "repository indexing & parsing",
@@ -8179,7 +8179,7 @@
       "label": "Retrieval & context",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "retrieval & context",
@@ -8191,7 +8191,7 @@
       "label": "Scalability & cost",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "scalability & cost",
@@ -8203,7 +8203,7 @@
       "label": "Security",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "security",
@@ -8215,7 +8215,7 @@
       "label": "Testing & evaluation",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "testing & evaluation",
@@ -8227,7 +8227,7 @@
       "label": "Tool calling & MCP",
       "_origin": "ast",
       "community": 42,
-      "community_name": "CodeForge \u2014 Interview Guide",
+      "community_name": "Kintsugi-Code \u2014 Interview Guide",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "tool calling & mcp",
@@ -8239,7 +8239,7 @@
       "label": "BUILD_STATUS.md",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "build_status.md",
@@ -8251,7 +8251,7 @@
       "label": "Audit round (2026-09-02) \u2014 8 defects found and fixed",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "audit round (2026-09-02) \u2014 8 defects found and fixed",
@@ -8259,14 +8259,14 @@
       "source_location": "L99"
     },
     {
-      "id": "build_status_build_status_codeforge",
-      "label": "BUILD STATUS \u2014 CodeForge",
+      "id": "build_status_build_status_Kintsugi-Code",
+      "label": "BUILD STATUS \u2014 Kintsugi-Code",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "build status \u2014 codeforge",
+      "norm_label": "build status \u2014 Kintsugi-Code",
       "source_file": "BUILD_STATUS.md",
       "source_location": "L1"
     },
@@ -8275,7 +8275,7 @@
       "label": "Completion round (2026-09-02)",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "completion round (2026-09-02)",
@@ -8287,7 +8287,7 @@
       "label": "Dead-code cleanup round (2026-09-02)",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "dead-code cleanup round (2026-09-02)",
@@ -8299,7 +8299,7 @@
       "label": "Known limitations",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "known limitations",
@@ -8311,7 +8311,7 @@
       "label": "Phases",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "phases",
@@ -8323,7 +8323,7 @@
       "label": "Post-audit remediation round (2026-09-03)",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "post-audit remediation round (2026-09-03)",
@@ -8335,7 +8335,7 @@
       "label": "Verification log (completion round)",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "verification log (completion round)",
@@ -8347,7 +8347,7 @@
       "label": "Verification log (post-audit remediation round)",
       "_origin": "ast",
       "community": 43,
-      "community_name": "BUILD STATUS \u2014 CodeForge",
+      "community_name": "BUILD STATUS \u2014 Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "verification log (post-audit remediation round)",
@@ -8359,7 +8359,7 @@
       "label": "RESUME_NOTES.md",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "resume_notes.md",
@@ -8371,7 +8371,7 @@
       "label": "Actual technology stack",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "actual technology stack",
@@ -8383,7 +8383,7 @@
       "label": "Architecture discussion points",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "architecture discussion points",
@@ -8391,14 +8391,14 @@
       "source_location": "L68"
     },
     {
-      "id": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
-      "label": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "id": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
+      "label": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge \u2014 resume notes",
+      "norm_label": "Kintsugi-Code \u2014 resume notes",
       "source_file": "docs/RESUME_NOTES.md",
       "source_location": "L1"
     },
@@ -8407,7 +8407,7 @@
       "label": "Five interview talking points",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "five interview talking points",
@@ -8419,7 +8419,7 @@
       "label": "Measured metrics (reproducible)",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "measured metrics (reproducible)",
@@ -8431,7 +8431,7 @@
       "label": "One-line description",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "one-line description",
@@ -8443,7 +8443,7 @@
       "label": "Strongest technical capabilities",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "strongest technical capabilities",
@@ -8455,7 +8455,7 @@
       "label": "Three r\u00e9sum\u00e9 bullet candidates",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "three resume bullet candidates",
@@ -8467,7 +8467,7 @@
       "label": "Weaknesses (know them before the interviewer does)",
       "_origin": "ast",
       "community": 44,
-      "community_name": "CodeForge \u2014 R\u00e9sum\u00e9 Notes",
+      "community_name": "Kintsugi-Code \u2014 R\u00e9sum\u00e9 Notes",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "weaknesses (know them before the interviewer does)",
@@ -8479,7 +8479,7 @@
       "label": "MCP.md",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "mcp.md",
@@ -8491,7 +8491,7 @@
       "label": "Client usage",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "client usage",
@@ -8499,14 +8499,14 @@
       "source_location": "L51"
     },
     {
-      "id": "docs_mcp_codeforge_mcp_integration",
-      "label": "CodeForge \u2014 MCP Integration",
+      "id": "docs_mcp_Kintsugi-Code_mcp_integration",
+      "label": "Kintsugi-Code \u2014 MCP Integration",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge \u2014 mcp integration",
+      "norm_label": "Kintsugi-Code \u2014 mcp integration",
       "source_file": "docs/MCP.md",
       "source_location": "L1"
     },
@@ -8515,7 +8515,7 @@
       "label": "Exposed tools",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "exposed tools",
@@ -8527,7 +8527,7 @@
       "label": "Limitations",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "limitations",
@@ -8539,7 +8539,7 @@
       "label": "Protocol level",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "protocol level",
@@ -8551,7 +8551,7 @@
       "label": "Purpose",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "purpose",
@@ -8563,7 +8563,7 @@
       "label": "Running the server",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "running the server",
@@ -8575,7 +8575,7 @@
       "label": "Security considerations",
       "_origin": "ast",
       "community": 45,
-      "community_name": "CodeForge \u2014 MCP Integration",
+      "community_name": "Kintsugi-Code \u2014 MCP Integration",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "security considerations",
@@ -8587,7 +8587,7 @@
       "label": "SECURITY.md",
       "_origin": "ast",
       "community": 46,
-      "community_name": "CodeForge \u2014 Security",
+      "community_name": "Kintsugi-Code \u2014 Security",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "security.md",
@@ -8595,14 +8595,14 @@
       "source_location": "L1"
     },
     {
-      "id": "docs_security_codeforge_security",
-      "label": "CodeForge \u2014 Security",
+      "id": "docs_security_Kintsugi-Code_security",
+      "label": "Kintsugi-Code \u2014 Security",
       "_origin": "ast",
       "community": 46,
-      "community_name": "CodeForge \u2014 Security",
+      "community_name": "Kintsugi-Code \u2014 Security",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge \u2014 security",
+      "norm_label": "Kintsugi-Code \u2014 security",
       "source_file": "docs/SECURITY.md",
       "source_location": "L1"
     },
@@ -8611,7 +8611,7 @@
       "label": "Input boundaries",
       "_origin": "ast",
       "community": 46,
-      "community_name": "CodeForge \u2014 Security",
+      "community_name": "Kintsugi-Code \u2014 Security",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "input boundaries",
@@ -8623,7 +8623,7 @@
       "label": "Reporting",
       "_origin": "ast",
       "community": 46,
-      "community_name": "CodeForge \u2014 Security",
+      "community_name": "Kintsugi-Code \u2014 Security",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "reporting",
@@ -8635,7 +8635,7 @@
       "label": "Secret detection patterns",
       "_origin": "ast",
       "community": 46,
-      "community_name": "CodeForge \u2014 Security",
+      "community_name": "Kintsugi-Code \u2014 Security",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "secret detection patterns",
@@ -8647,7 +8647,7 @@
       "label": "Secret-storage remediation for existing databases",
       "_origin": "ast",
       "community": 46,
-      "community_name": "CodeForge \u2014 Security",
+      "community_name": "Kintsugi-Code \u2014 Security",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "secret-storage remediation for existing databases",
@@ -8659,7 +8659,7 @@
       "label": "Threat model",
       "_origin": "ast",
       "community": 46,
-      "community_name": "CodeForge \u2014 Security",
+      "community_name": "Kintsugi-Code \u2014 Security",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "threat model",
@@ -8671,7 +8671,7 @@
       "label": "What is deliberately NOT protected against",
       "_origin": "ast",
       "community": 46,
-      "community_name": "CodeForge \u2014 Security",
+      "community_name": "Kintsugi-Code \u2014 Security",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "what is deliberately not protected against",
@@ -8767,7 +8767,7 @@
       "label": "CONTRIBUTING.md",
       "_origin": "ast",
       "community": 48,
-      "community_name": "Contributing to CodeForge",
+      "community_name": "Contributing to Kintsugi-Code",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "contributing.md",
@@ -8779,7 +8779,7 @@
       "label": "Adding a tool",
       "_origin": "ast",
       "community": 48,
-      "community_name": "Contributing to CodeForge",
+      "community_name": "Contributing to Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "adding a tool",
@@ -8791,7 +8791,7 @@
       "label": "Adding an evaluation case",
       "_origin": "ast",
       "community": 48,
-      "community_name": "Contributing to CodeForge",
+      "community_name": "Contributing to Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "adding an evaluation case",
@@ -8803,7 +8803,7 @@
       "label": "Commit style",
       "_origin": "ast",
       "community": 48,
-      "community_name": "Contributing to CodeForge",
+      "community_name": "Contributing to Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "commit style",
@@ -8811,14 +8811,14 @@
       "source_location": "L48"
     },
     {
-      "id": "contributing_contributing_to_codeforge",
-      "label": "Contributing to CodeForge",
+      "id": "contributing_contributing_to_Kintsugi-Code",
+      "label": "Contributing to Kintsugi-Code",
       "_origin": "ast",
       "community": 48,
-      "community_name": "Contributing to CodeForge",
+      "community_name": "Contributing to Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "contributing to codeforge",
+      "norm_label": "contributing to Kintsugi-Code",
       "source_file": "CONTRIBUTING.md",
       "source_location": "L1"
     },
@@ -8827,7 +8827,7 @@
       "label": "Development setup",
       "_origin": "ast",
       "community": 48,
-      "community_name": "Contributing to CodeForge",
+      "community_name": "Contributing to Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "development setup",
@@ -8839,7 +8839,7 @@
       "label": "Ground rules",
       "_origin": "ast",
       "community": 48,
-      "community_name": "Contributing to CodeForge",
+      "community_name": "Contributing to Kintsugi-Code",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "ground rules",
@@ -9110,7 +9110,7 @@
       "label": "EVALUATION.md",
       "_origin": "ast",
       "community": 50,
-      "community_name": "CodeForge \u2014 Evaluation",
+      "community_name": "Kintsugi-Code \u2014 Evaluation",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "evaluation.md",
@@ -9118,14 +9118,14 @@
       "source_location": "L1"
     },
     {
-      "id": "docs_evaluation_codeforge_evaluation",
-      "label": "CodeForge \u2014 Evaluation",
+      "id": "docs_evaluation_Kintsugi-Code_evaluation",
+      "label": "Kintsugi-Code \u2014 Evaluation",
       "_origin": "ast",
       "community": 50,
-      "community_name": "CodeForge \u2014 Evaluation",
+      "community_name": "Kintsugi-Code \u2014 Evaluation",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge \u2014 evaluation",
+      "norm_label": "Kintsugi-Code \u2014 evaluation",
       "source_file": "docs/EVALUATION.md",
       "source_location": "L1"
     },
@@ -9134,7 +9134,7 @@
       "label": "Honest notes on the numbers",
       "_origin": "ast",
       "community": 50,
-      "community_name": "CodeForge \u2014 Evaluation",
+      "community_name": "Kintsugi-Code \u2014 Evaluation",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "honest notes on the numbers",
@@ -9146,7 +9146,7 @@
       "label": "Measured results (this build)",
       "_origin": "ast",
       "community": 50,
-      "community_name": "CodeForge \u2014 Evaluation",
+      "community_name": "Kintsugi-Code \u2014 Evaluation",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "measured results (this build)",
@@ -9158,7 +9158,7 @@
       "label": "Method",
       "_origin": "ast",
       "community": 50,
-      "community_name": "CodeForge \u2014 Evaluation",
+      "community_name": "Kintsugi-Code \u2014 Evaluation",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "method",
@@ -9170,7 +9170,7 @@
       "label": "What is NOT measured",
       "_origin": "ast",
       "community": 50,
-      "community_name": "CodeForge \u2014 Evaluation",
+      "community_name": "Kintsugi-Code \u2014 Evaluation",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "what is not measured",
@@ -9598,55 +9598,55 @@
       "source_location": "L16"
     },
     {
-      "id": "opencode_skills_codeforge_dev_skill",
+      "id": "opencode_skills_Kintsugi-Code_dev_skill",
       "label": "SKILL.md",
       "_origin": "ast",
       "community": 58,
-      "community_name": "CodeForge development skill",
+      "community_name": "Kintsugi-Code development skill",
       "file_type": "document",
       "frontmatter": {
-        "name": "codeforge-dev",
-        "description": "Project-local conventions for working on CodeForge itself \u2014 run backend tests and evaluation, apply a controlled patch with test validation, and verify the e2e workflow. Use when developing, testing, or changing this repository."
+        "name": "Kintsugi-Code-dev",
+        "description": "Project-local conventions for working on Kintsugi-Code itself \u2014 run backend tests and evaluation, apply a controlled patch with test validation, and verify the e2e workflow. Use when developing, testing, or changing this repository."
       },
       "node_kind": "page",
       "norm_label": "skill.md",
-      "source_file": ".opencode/skills/codeforge-dev/SKILL.md",
+      "source_file": ".opencode/skills/Kintsugi-Code-dev/SKILL.md",
       "source_location": "L1"
     },
     {
-      "id": "opencode_skills_codeforge_dev_skill_codeforge_development_skill",
-      "label": "CodeForge development skill",
+      "id": "opencode_skills_Kintsugi-Code_dev_skill_Kintsugi-Code_development_skill",
+      "label": "Kintsugi-Code development skill",
       "_origin": "ast",
       "community": 58,
-      "community_name": "CodeForge development skill",
+      "community_name": "Kintsugi-Code development skill",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "codeforge development skill",
-      "source_file": ".opencode/skills/codeforge-dev/SKILL.md",
+      "norm_label": "Kintsugi-Code development skill",
+      "source_file": ".opencode/skills/Kintsugi-Code-dev/SKILL.md",
       "source_location": "L6"
     },
     {
-      "id": "opencode_skills_codeforge_dev_skill_commands",
+      "id": "opencode_skills_Kintsugi-Code_dev_skill_commands",
       "label": "Commands",
       "_origin": "ast",
       "community": 58,
-      "community_name": "CodeForge development skill",
+      "community_name": "Kintsugi-Code development skill",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "commands",
-      "source_file": ".opencode/skills/codeforge-dev/SKILL.md",
+      "source_file": ".opencode/skills/Kintsugi-Code-dev/SKILL.md",
       "source_location": "L10"
     },
     {
-      "id": "opencode_skills_codeforge_dev_skill_rules",
+      "id": "opencode_skills_Kintsugi-Code_dev_skill_rules",
       "label": "Rules",
       "_origin": "ast",
       "community": 58,
-      "community_name": "CodeForge development skill",
+      "community_name": "Kintsugi-Code development skill",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "rules",
-      "source_file": ".opencode/skills/codeforge-dev/SKILL.md",
+      "source_file": ".opencode/skills/Kintsugi-Code-dev/SKILL.md",
       "source_location": "L35"
     },
     {
@@ -23901,7 +23901,7 @@
     },
     {
       "source": "build_status",
-      "target": "build_status_build_status_codeforge",
+      "target": "build_status_build_status_Kintsugi-Code",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23911,7 +23911,7 @@
       "weight": 1.0
     },
     {
-      "source": "build_status_build_status_codeforge",
+      "source": "build_status_build_status_Kintsugi-Code",
       "target": "build_status_completion_round_2026_09_02",
       "relation": "contains",
       "_origin": "ast",
@@ -23922,7 +23922,7 @@
       "weight": 1.0
     },
     {
-      "source": "build_status_build_status_codeforge",
+      "source": "build_status_build_status_Kintsugi-Code",
       "target": "build_status_verification_log_completion_round",
       "relation": "contains",
       "_origin": "ast",
@@ -23933,7 +23933,7 @@
       "weight": 1.0
     },
     {
-      "source": "build_status_build_status_codeforge",
+      "source": "build_status_build_status_Kintsugi-Code",
       "target": "build_status_known_limitations",
       "relation": "contains",
       "_origin": "ast",
@@ -23944,7 +23944,7 @@
       "weight": 1.0
     },
     {
-      "source": "build_status_build_status_codeforge",
+      "source": "build_status_build_status_Kintsugi-Code",
       "target": "build_status_post_audit_remediation_round_2026_09_03",
       "relation": "contains",
       "_origin": "ast",
@@ -23955,7 +23955,7 @@
       "weight": 1.0
     },
     {
-      "source": "build_status_build_status_codeforge",
+      "source": "build_status_build_status_Kintsugi-Code",
       "target": "build_status_phases",
       "relation": "contains",
       "_origin": "ast",
@@ -23966,7 +23966,7 @@
       "weight": 1.0
     },
     {
-      "source": "build_status_build_status_codeforge",
+      "source": "build_status_build_status_Kintsugi-Code",
       "target": "build_status_verification_log_post_audit_remediation_round",
       "relation": "contains",
       "_origin": "ast",
@@ -23977,7 +23977,7 @@
       "weight": 1.0
     },
     {
-      "source": "build_status_build_status_codeforge",
+      "source": "build_status_build_status_Kintsugi-Code",
       "target": "build_status_dead_code_cleanup_round_2026_09_02",
       "relation": "contains",
       "_origin": "ast",
@@ -23988,7 +23988,7 @@
       "weight": 1.0
     },
     {
-      "source": "build_status_build_status_codeforge",
+      "source": "build_status_build_status_Kintsugi-Code",
       "target": "build_status_audit_round_2026_09_02_8_defects_found_and_fixed",
       "relation": "contains",
       "_origin": "ast",
@@ -24066,7 +24066,7 @@
     },
     {
       "source": "contributing",
-      "target": "contributing_contributing_to_codeforge",
+      "target": "contributing_contributing_to_Kintsugi-Code",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -24076,7 +24076,7 @@
       "weight": 1.0
     },
     {
-      "source": "contributing_contributing_to_codeforge",
+      "source": "contributing_contributing_to_Kintsugi-Code",
       "target": "contributing_ground_rules",
       "relation": "contains",
       "_origin": "ast",
@@ -24087,7 +24087,7 @@
       "weight": 1.0
     },
     {
-      "source": "contributing_contributing_to_codeforge",
+      "source": "contributing_contributing_to_Kintsugi-Code",
       "target": "contributing_adding_a_tool",
       "relation": "contains",
       "_origin": "ast",
@@ -24098,7 +24098,7 @@
       "weight": 1.0
     },
     {
-      "source": "contributing_contributing_to_codeforge",
+      "source": "contributing_contributing_to_Kintsugi-Code",
       "target": "contributing_adding_an_evaluation_case",
       "relation": "contains",
       "_origin": "ast",
@@ -24109,7 +24109,7 @@
       "weight": 1.0
     },
     {
-      "source": "contributing_contributing_to_codeforge",
+      "source": "contributing_contributing_to_Kintsugi-Code",
       "target": "contributing_commit_style",
       "relation": "contains",
       "_origin": "ast",
@@ -24120,7 +24120,7 @@
       "weight": 1.0
     },
     {
-      "source": "contributing_contributing_to_codeforge",
+      "source": "contributing_contributing_to_Kintsugi-Code",
       "target": "contributing_development_setup",
       "relation": "contains",
       "_origin": "ast",
@@ -24451,7 +24451,7 @@
     },
     {
       "source": "docs_architecture",
-      "target": "docs_architecture_codeforge_architecture",
+      "target": "docs_architecture_Kintsugi-Code_architecture",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -24461,7 +24461,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_architecture_codeforge_architecture",
+      "source": "docs_architecture_Kintsugi-Code_architecture",
       "target": "docs_architecture_data_flow_repository_question",
       "relation": "contains",
       "_origin": "ast",
@@ -24472,7 +24472,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_architecture_codeforge_architecture",
+      "source": "docs_architecture_Kintsugi-Code_architecture",
       "target": "docs_architecture_data_flow_controlled_fix",
       "relation": "contains",
       "_origin": "ast",
@@ -24483,7 +24483,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_architecture_codeforge_architecture",
+      "source": "docs_architecture_Kintsugi-Code_architecture",
       "target": "docs_architecture_development_tooling",
       "relation": "contains",
       "_origin": "ast",
@@ -24494,7 +24494,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_architecture_codeforge_architecture",
+      "source": "docs_architecture_Kintsugi-Code_architecture",
       "target": "docs_architecture_deployment",
       "relation": "contains",
       "_origin": "ast",
@@ -24505,7 +24505,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_architecture_codeforge_architecture",
+      "source": "docs_architecture_Kintsugi-Code_architecture",
       "target": "docs_architecture_components",
       "relation": "contains",
       "_origin": "ast",
@@ -24516,7 +24516,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_architecture_codeforge_architecture",
+      "source": "docs_architecture_Kintsugi-Code_architecture",
       "target": "docs_architecture_system_overview",
       "relation": "contains",
       "_origin": "ast",
@@ -24638,7 +24638,7 @@
     },
     {
       "source": "docs_demo",
-      "target": "docs_demo_codeforge_demo_script",
+      "target": "docs_demo_Kintsugi-Code_demo_script",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -24648,7 +24648,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_demo_codeforge_demo_script",
+      "source": "docs_demo_Kintsugi-Code_demo_script",
       "target": "docs_demo_the_10_demo_workflows",
       "relation": "contains",
       "_origin": "ast",
@@ -24659,7 +24659,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_demo_codeforge_demo_script",
+      "source": "docs_demo_Kintsugi-Code_demo_script",
       "target": "docs_demo_setup",
       "relation": "contains",
       "_origin": "ast",
@@ -24670,7 +24670,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_demo_codeforge_demo_script",
+      "source": "docs_demo_Kintsugi-Code_demo_script",
       "target": "docs_demo_api_level_reproduction",
       "relation": "contains",
       "_origin": "ast",
@@ -24681,7 +24681,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_demo_codeforge_demo_script",
+      "source": "docs_demo_Kintsugi-Code_demo_script",
       "target": "docs_demo_mock_mode",
       "relation": "contains",
       "_origin": "ast",
@@ -24803,7 +24803,7 @@
     },
     {
       "source": "docs_evaluation",
-      "target": "docs_evaluation_codeforge_evaluation",
+      "target": "docs_evaluation_Kintsugi-Code_evaluation",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -24813,7 +24813,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_evaluation_codeforge_evaluation",
+      "source": "docs_evaluation_Kintsugi-Code_evaluation",
       "target": "docs_evaluation_measured_results_this_build",
       "relation": "contains",
       "_origin": "ast",
@@ -24824,7 +24824,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_evaluation_codeforge_evaluation",
+      "source": "docs_evaluation_Kintsugi-Code_evaluation",
       "target": "docs_evaluation_method",
       "relation": "contains",
       "_origin": "ast",
@@ -24835,7 +24835,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_evaluation_codeforge_evaluation",
+      "source": "docs_evaluation_Kintsugi-Code_evaluation",
       "target": "docs_evaluation_honest_notes_on_the_numbers",
       "relation": "contains",
       "_origin": "ast",
@@ -24846,7 +24846,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_evaluation_codeforge_evaluation",
+      "source": "docs_evaluation_Kintsugi-Code_evaluation",
       "target": "docs_evaluation_what_is_not_measured",
       "relation": "contains",
       "_origin": "ast",
@@ -24858,7 +24858,7 @@
     },
     {
       "source": "docs_interview_guide",
-      "target": "docs_interview_guide_codeforge_interview_guide",
+      "target": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -24868,7 +24868,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_retrieval_context",
       "relation": "contains",
       "_origin": "ast",
@@ -24879,7 +24879,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_rag_evidence",
       "relation": "contains",
       "_origin": "ast",
@@ -24890,7 +24890,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_agent_architecture",
       "relation": "contains",
       "_origin": "ast",
@@ -24901,7 +24901,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_tool_calling_mcp",
       "relation": "contains",
       "_origin": "ast",
@@ -24912,7 +24912,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_security",
       "relation": "contains",
       "_origin": "ast",
@@ -24923,7 +24923,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_testing_evaluation",
       "relation": "contains",
       "_origin": "ast",
@@ -24934,7 +24934,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_observability",
       "relation": "contains",
       "_origin": "ast",
@@ -24945,7 +24945,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_scalability_cost",
       "relation": "contains",
       "_origin": "ast",
@@ -24956,7 +24956,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_human_oversight",
       "relation": "contains",
       "_origin": "ast",
@@ -24967,7 +24967,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_failure_handling",
       "relation": "contains",
       "_origin": "ast",
@@ -24978,7 +24978,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_interview_guide_codeforge_interview_guide",
+      "source": "docs_interview_guide_Kintsugi-Code_interview_guide",
       "target": "docs_interview_guide_repository_indexing_parsing",
       "relation": "contains",
       "_origin": "ast",
@@ -24990,7 +24990,7 @@
     },
     {
       "source": "docs_mcp",
-      "target": "docs_mcp_codeforge_mcp_integration",
+      "target": "docs_mcp_Kintsugi-Code_mcp_integration",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25000,7 +25000,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_mcp_codeforge_mcp_integration",
+      "source": "docs_mcp_Kintsugi-Code_mcp_integration",
       "target": "docs_mcp_protocol_level",
       "relation": "contains",
       "_origin": "ast",
@@ -25011,7 +25011,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_mcp_codeforge_mcp_integration",
+      "source": "docs_mcp_Kintsugi-Code_mcp_integration",
       "target": "docs_mcp_running_the_server",
       "relation": "contains",
       "_origin": "ast",
@@ -25022,7 +25022,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_mcp_codeforge_mcp_integration",
+      "source": "docs_mcp_Kintsugi-Code_mcp_integration",
       "target": "docs_mcp_purpose",
       "relation": "contains",
       "_origin": "ast",
@@ -25033,7 +25033,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_mcp_codeforge_mcp_integration",
+      "source": "docs_mcp_Kintsugi-Code_mcp_integration",
       "target": "docs_mcp_client_usage",
       "relation": "contains",
       "_origin": "ast",
@@ -25044,7 +25044,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_mcp_codeforge_mcp_integration",
+      "source": "docs_mcp_Kintsugi-Code_mcp_integration",
       "target": "docs_mcp_security_considerations",
       "relation": "contains",
       "_origin": "ast",
@@ -25055,7 +25055,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_mcp_codeforge_mcp_integration",
+      "source": "docs_mcp_Kintsugi-Code_mcp_integration",
       "target": "docs_mcp_limitations",
       "relation": "contains",
       "_origin": "ast",
@@ -25078,7 +25078,7 @@
     },
     {
       "source": "docs_resume_notes",
-      "target": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "target": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25088,7 +25088,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "source": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "target": "docs_resume_notes_actual_technology_stack",
       "relation": "contains",
       "_origin": "ast",
@@ -25099,7 +25099,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "source": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "target": "docs_resume_notes_strongest_technical_capabilities",
       "relation": "contains",
       "_origin": "ast",
@@ -25110,7 +25110,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "source": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "target": "docs_resume_notes_measured_metrics_reproducible",
       "relation": "contains",
       "_origin": "ast",
@@ -25121,7 +25121,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "source": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "target": "docs_resume_notes_one_line_description",
       "relation": "contains",
       "_origin": "ast",
@@ -25132,7 +25132,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "source": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "target": "docs_resume_notes_three_r\u00e9sum\u00e9_bullet_candidates",
       "relation": "contains",
       "_origin": "ast",
@@ -25143,7 +25143,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "source": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "target": "docs_resume_notes_five_interview_talking_points",
       "relation": "contains",
       "_origin": "ast",
@@ -25154,7 +25154,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "source": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "target": "docs_resume_notes_architecture_discussion_points",
       "relation": "contains",
       "_origin": "ast",
@@ -25165,7 +25165,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_resume_notes_codeforge_r\u00e9sum\u00e9_notes",
+      "source": "docs_resume_notes_Kintsugi-Code_r\u00e9sum\u00e9_notes",
       "target": "docs_resume_notes_weaknesses_know_them_before_the_interviewer_does",
       "relation": "contains",
       "_origin": "ast",
@@ -25177,7 +25177,7 @@
     },
     {
       "source": "docs_security",
-      "target": "docs_security_codeforge_security",
+      "target": "docs_security_Kintsugi-Code_security",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25187,7 +25187,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_security_codeforge_security",
+      "source": "docs_security_Kintsugi-Code_security",
       "target": "docs_security_input_boundaries",
       "relation": "contains",
       "_origin": "ast",
@@ -25198,7 +25198,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_security_codeforge_security",
+      "source": "docs_security_Kintsugi-Code_security",
       "target": "docs_security_threat_model",
       "relation": "contains",
       "_origin": "ast",
@@ -25209,7 +25209,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_security_codeforge_security",
+      "source": "docs_security_Kintsugi-Code_security",
       "target": "docs_security_what_is_deliberately_not_protected_against",
       "relation": "contains",
       "_origin": "ast",
@@ -25220,7 +25220,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_security_codeforge_security",
+      "source": "docs_security_Kintsugi-Code_security",
       "target": "docs_security_secret_storage_remediation_for_existing_databases",
       "relation": "contains",
       "_origin": "ast",
@@ -25231,7 +25231,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_security_codeforge_security",
+      "source": "docs_security_Kintsugi-Code_security",
       "target": "docs_security_secret_detection_patterns",
       "relation": "contains",
       "_origin": "ast",
@@ -25242,7 +25242,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_security_codeforge_security",
+      "source": "docs_security_Kintsugi-Code_security",
       "target": "docs_security_reporting",
       "relation": "contains",
       "_origin": "ast",
@@ -26441,41 +26441,41 @@
       "weight": 1.0
     },
     {
-      "source": "opencode_skills_codeforge_dev_skill",
-      "target": "opencode_skills_codeforge_dev_skill_codeforge_development_skill",
+      "source": "opencode_skills_Kintsugi-Code_dev_skill",
+      "target": "opencode_skills_Kintsugi-Code_dev_skill_Kintsugi-Code_development_skill",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": ".opencode/skills/codeforge-dev/SKILL.md",
+      "source_file": ".opencode/skills/Kintsugi-Code-dev/SKILL.md",
       "source_location": "L6",
       "weight": 1.0
     },
     {
-      "source": "opencode_skills_codeforge_dev_skill_codeforge_development_skill",
-      "target": "opencode_skills_codeforge_dev_skill_commands",
+      "source": "opencode_skills_Kintsugi-Code_dev_skill_Kintsugi-Code_development_skill",
+      "target": "opencode_skills_Kintsugi-Code_dev_skill_commands",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": ".opencode/skills/codeforge-dev/SKILL.md",
+      "source_file": ".opencode/skills/Kintsugi-Code-dev/SKILL.md",
       "source_location": "L10",
       "weight": 1.0
     },
     {
-      "source": "opencode_skills_codeforge_dev_skill_codeforge_development_skill",
-      "target": "opencode_skills_codeforge_dev_skill_rules",
+      "source": "opencode_skills_Kintsugi-Code_dev_skill_Kintsugi-Code_development_skill",
+      "target": "opencode_skills_Kintsugi-Code_dev_skill_rules",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": ".opencode/skills/codeforge-dev/SKILL.md",
+      "source_file": ".opencode/skills/Kintsugi-Code-dev/SKILL.md",
       "source_location": "L35",
       "weight": 1.0
     },
     {
       "source": "project_reference",
-      "target": "project_reference_codeforge_the_complete_project_reference",
+      "target": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -26485,7 +26485,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_1_what_codeforge_is",
+      "source": "project_reference_1_what_Kintsugi-Code_is",
       "target": "project_reference_the_core_product_loop",
       "relation": "contains",
       "_origin": "ast",
@@ -26496,7 +26496,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_1_what_codeforge_is",
+      "source": "project_reference_1_what_Kintsugi-Code_is",
       "target": "project_reference_design_stance_worth_stating_first",
       "relation": "contains",
       "_origin": "ast",
@@ -26694,8 +26694,8 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
-      "target": "project_reference_1_what_codeforge_is",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
+      "target": "project_reference_1_what_Kintsugi-Code_is",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -26705,7 +26705,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_4_the_frontend_12_screens_ide_grade",
       "relation": "contains",
       "_origin": "ast",
@@ -26716,7 +26716,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_5_the_end_to_end_pipeline_concretely",
       "relation": "contains",
       "_origin": "ast",
@@ -26727,7 +26727,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_6_the_sample_repository_examples_sample_repo",
       "relation": "contains",
       "_origin": "ast",
@@ -26738,7 +26738,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_7_what_is_actually_verified_all_measured_nothing_claimed",
       "relation": "contains",
       "_origin": "ast",
@@ -26749,7 +26749,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_8_security_posture_threat_model_driven_tested",
       "relation": "contains",
       "_origin": "ast",
@@ -26760,7 +26760,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_9_graphify_the_codebase_s_own_knowledge_graph",
       "relation": "contains",
       "_origin": "ast",
@@ -26771,7 +26771,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_10_documentation_set_all_committed",
       "relation": "contains",
       "_origin": "ast",
@@ -26782,7 +26782,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_11_test_inventory_64_functions_71_pytest_cases",
       "relation": "contains",
       "_origin": "ast",
@@ -26793,7 +26793,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_2_repository_map_every_directory_and_why_it_exists",
       "relation": "contains",
       "_origin": "ast",
@@ -26804,7 +26804,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_12_infrastructure",
       "relation": "contains",
       "_origin": "ast",
@@ -26815,7 +26815,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_13_project_local_opencode_skill",
       "relation": "contains",
       "_origin": "ast",
@@ -26826,7 +26826,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_14_known_limitations_honest_documented_everywhere",
       "relation": "contains",
       "_origin": "ast",
@@ -26837,7 +26837,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_15_how_to_experience_it_in_90_seconds",
       "relation": "contains",
       "_origin": "ast",
@@ -26848,7 +26848,7 @@
       "weight": 1.0
     },
     {
-      "source": "project_reference_codeforge_the_complete_project_reference",
+      "source": "project_reference_Kintsugi-Code_the_complete_project_reference",
       "target": "project_reference_3_the_backend_module_by_module_line_counts_included",
       "relation": "contains",
       "_origin": "ast",
@@ -26860,7 +26860,7 @@
     },
     {
       "source": "readme",
-      "target": "readme_codeforge",
+      "target": "readme_Kintsugi-Code",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -26870,7 +26870,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_security_posture",
       "relation": "contains",
       "_origin": "ast",
@@ -26881,7 +26881,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_what_it_does",
       "relation": "contains",
       "_origin": "ast",
@@ -26892,7 +26892,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_evaluation_results_measured_sample_repo_benchmark",
       "relation": "contains",
       "_origin": "ast",
@@ -26903,7 +26903,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_mcp",
       "relation": "contains",
       "_origin": "ast",
@@ -26914,7 +26914,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_docker",
       "relation": "contains",
       "_origin": "ast",
@@ -26925,7 +26925,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_repository_layout",
       "relation": "contains",
       "_origin": "ast",
@@ -26936,7 +26936,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_limitations",
       "relation": "contains",
       "_origin": "ast",
@@ -26947,7 +26947,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_roadmap",
       "relation": "contains",
       "_origin": "ast",
@@ -26958,7 +26958,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_license",
       "relation": "contains",
       "_origin": "ast",
@@ -26969,7 +26969,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_architecture",
       "relation": "contains",
       "_origin": "ast",
@@ -26980,7 +26980,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_quick_start",
       "relation": "contains",
       "_origin": "ast",
@@ -26991,7 +26991,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_configuration",
       "relation": "contains",
       "_origin": "ast",
@@ -27002,7 +27002,7 @@
       "weight": 1.0
     },
     {
-      "source": "readme_codeforge",
+      "source": "readme_Kintsugi-Code",
       "target": "readme_testing",
       "relation": "contains",
       "_origin": "ast",

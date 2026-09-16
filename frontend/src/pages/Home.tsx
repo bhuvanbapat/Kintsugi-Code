@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <div style={{ maxWidth: 720 }}>
-      <h1 style={{ marginTop: 0 }}>CodeForge</h1>
+      <h1 style={{ marginTop: 0 }}>Kintsugi-Code</h1>
       <p className="dim">
         An AI-assisted software engineering workspace: index a repository, ask
         evidence-backed questions about the codebase, run tests, and apply
@@ -81,3 +81,4 @@ export default function Home() {
     </div>
   );
 }
+

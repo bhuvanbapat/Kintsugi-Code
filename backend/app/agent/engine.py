@@ -243,7 +243,7 @@ class Agent:
 
     def _system_prompt(self, mode: TaskMode, allowed_tools: set[str]) -> str:
         base = (
-            "You are CodeForge, a repository-aware software engineering assistant. "
+            "You are Kintsugi-Code, a repository-aware software engineering assistant. "
             "Answer grounded ONLY in the provided context. Cite files as path:line. "
             "Mark statements as CONFIRMED FROM CODE, INFERENCE, or UNCERTAINTY. "
             "Never invent files, symbols, or line numbers.\n"
@@ -275,3 +275,4 @@ def _summarize(outcome: dict) -> str:
         if "diff" in result:
             return f"diff {len(result['diff'])} chars"
     return "ok"
+

@@ -1,9 +1,9 @@
 """Campus Task Management — data layer (in-memory repositories).
 
-A small realistic sample application used to demonstrate CodeForge. It
+A small realistic sample application used to demonstrate Kintsugi-Code. It
 intentionally contains one defect in the service layer
 (`TaskService.complete_task`) that causes `tests/test_task_service.py::test_complete_todo_task_fails`
-to fail — the demo shows CodeForge finding and fixing it.
+to fail — the demo shows Kintsugi-Code finding and fixing it.
 """
 from __future__ import annotations
 
@@ -48,3 +48,4 @@ class TaskRepository:
 
     def delete(self, task_id: int) -> bool:
         return self._tasks.pop(task_id, None) is not None
+

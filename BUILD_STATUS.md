@@ -1,4 +1,4 @@
-# BUILD STATUS — CodeForge
+# BUILD STATUS — Kintsugi-Code
 
 Last updated: 2026-09-02 (completion round) · Overall: **COMPLETE — all systems verified**
 
@@ -144,3 +144,4 @@ Fixed real bug found during sweep: SQLite default path resolved to
 Documented in README (AST depth for Python/JS/TS only; templated mock
 answers; heuristic import resolution; deterministic graph layout; no API auth
 — local-first tool).
+

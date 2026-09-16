@@ -1,4 +1,4 @@
-# CodeForge — Architecture
+# Kintsugi-Code — Architecture
 
 ## System overview
 
@@ -181,7 +181,7 @@ This codebase was itself built with structural tooling:
   community contains only agent+state machine files).
 - The `graphify` OpenCode skill was the primary skill used during development
   (structural understanding, change-impact queries); a project-local skill
-  (`.opencode/skills/codeforge-dev`) captures the repo's own conventions.
+  (`.opencode/skills/Kintsugi-Code-dev`) captures the repo's own conventions.
 
 ## Deployment
 
@@ -189,3 +189,4 @@ This codebase was itself built with structural tooling:
 - Docker: `docker compose up --build` — frontend build is served by nginx,
   backend by uvicorn; single compose network.
 - CI: GitHub Actions runs backend tests + frontend typecheck/build on push.
+

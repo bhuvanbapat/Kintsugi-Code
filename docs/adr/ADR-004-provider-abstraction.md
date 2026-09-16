@@ -17,8 +17,9 @@ confidence; it cannot invent repository facts.
 ## Consequences
 + Demo mode is honest: the "AI" in mock mode is grounded composition over
   real retrieval output, clearly labeled, fully reproducible offline.
-+ Switching providers is configuration (`CODEFORGE_LLM_PROVIDER`), not code.
++ Switching providers is configuration (`Kintsugi-Code_LLM_PROVIDER`), not code.
 + Usage tracking: provider-reported tokens surface when available; the UI
   shows "unavailable" otherwise — never fabricated.
 − Mock answers are template-shaped rather than prose-fluent; that is an
   accepted, documented tradeoff for guaranteed offline operation.
+

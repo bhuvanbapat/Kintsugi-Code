@@ -36,7 +36,7 @@ def validate_git_url(url: str) -> None:
 def clone_repository(url: str, target_root: Path | None = None) -> Path:
     """Clone `url` (https only, depth-limited) and return the local path."""
     validate_git_url(url)
-    base = target_root or Path(tempfile.gettempdir()) / "codeforge-clones"
+    base = target_root or Path(tempfile.gettempdir()) / "Kintsugi-Code-clones"
     base.mkdir(parents=True, exist_ok=True)
     # Deterministic dir name from the URL: stable digest (PYTHONHASHSEED-proof)
     # so the same URL maps to the same cache dir across process restarts.
@@ -61,3 +61,4 @@ def clone_repository(url: str, target_root: Path | None = None) -> Path:
         raise RuntimeError(f"git clone failed: {result.stderr[:300]}")
     log.info("cloned %s -> %s", url, dest)
     return dest
+

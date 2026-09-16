@@ -1,4 +1,4 @@
-"""MCP client: connect CodeForge to external MCP servers over stdio.
+"""MCP client: connect Kintsugi-Code to external MCP servers over stdio.
 
 Lets the agent use external MCP tools (e.g. graphify's MCP server) alongside
 built-in tools. Runs a configured server as a subprocess speaking
@@ -63,7 +63,7 @@ class MCPClient:
         return await self._send({
             "jsonrpc": "2.0", "id": 1, "method": "initialize",
             "params": {"protocolVersion": "2024-11-05",
-                       "clientInfo": {"name": "codeforge", "version": "0.1.0"}},
+                       "clientInfo": {"name": "Kintsugi-Code", "version": "0.1.0"}},
         }) or {}
 
     async def list_tools(self) -> list[dict]:
@@ -93,3 +93,4 @@ def load_mcp_config() -> dict:
     if config_path.exists():
         return json.loads(config_path.read_text(encoding="utf-8"))
     return {}
+

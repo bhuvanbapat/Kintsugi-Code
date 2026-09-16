@@ -1,7 +1,7 @@
 [project]
-name = "codeforge-backend"
+name = "Kintsugi-Code-backend"
 version = "0.1.0"
-description = "CodeForge — AI software engineering workspace (backend)"
+description = "Kintsugi-Code — AI software engineering workspace (backend)"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.115.0",
@@ -44,3 +44,4 @@ warn_unused_ignores = false
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+

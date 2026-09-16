@@ -1,4 +1,4 @@
-# CodeForge — Interview Guide
+# Kintsugi-Code — Interview Guide
 
 Technical questions you should be able to answer about this project, with
 pointers into the code/docs.
@@ -33,7 +33,7 @@ pointers into the code/docs.
 - Why expose only read-only tools over MCP?
 
 ## Security
-- Treat this README as attacker-controlled: what does CodeForge do? (content is retrieval data; never instructions — ADR-005)
+- Treat this README as attacker-controlled: what does Kintsugi-Code do? (content is retrieval data; never instructions — ADR-005)
 - Where does secret redaction happen and what patterns? (`indexing/secrets.py`; tested)
 - Walk through the rollback-on-failing-tests flow. (`main.py::apply_patch`; integration test)
 
@@ -58,3 +58,4 @@ pointers into the code/docs.
 ## Failure handling
 - What degrades gracefully, and how? (AST stdlib fallback, mock provider, per-file parse errors)
 - What did you have to fix during development that tests now protect against? (SQL column mismatch, byte offsets, import naming, ranking regression)
+

@@ -1,4 +1,4 @@
-# CodeForge — The Complete Project Reference
+# Kintsugi-Code — The Complete Project Reference
 
 > Every inch of what this repository is, what was built, how it works, where
 > every line lives, what is verified, and what it honestly cannot do.
@@ -7,9 +7,9 @@
 
 ---
 
-## 1. What CodeForge IS
+## 1. What Kintsugi-Code IS
 
-**CodeForge** is an **AI-assisted software engineering workspace** — a local-first
+**Kintsugi-Code** is an **AI-assisted software engineering workspace** — a local-first
 developer tool that:
 
 1. **Indexes a repository structurally** (real AST parsing, not regex)
@@ -46,7 +46,7 @@ Every arrow above is a real, inspectable subsystem documented in this file.
 ## 2. Repository map — every directory and why it exists
 
 ```
-CodeForge/
+Kintsugi-Code/
 ├── backend/                    Python FastAPI application (the engine)
 │   ├── app/
 │   │   ├── main.py             All 25 HTTP routes / 23 paths (§4)
@@ -81,9 +81,9 @@ CodeForge/
 │   ├── adr/                    RESUME_NOTES, INTERVIEW_GUIDE + 7 ADRs (§10)
 ├── scripts/                    e2e_demo, verify_mcp, final_verify,
 │                               adversarial_api, adversarial_wave2, refresh_graph
-├── graphify-out/               knowledge graph of CodeForge itself (§9)
+├── graphify-out/               knowledge graph of Kintsugi-Code itself (§9)
 ├── .github/workflows/ci.yml    CI: mypy→pytest→eval→eslint→tsc→build (§12)
-├── .opencode/skills/codeforge-dev/SKILL.md   project-local dev skill (§13)
+├── .opencode/skills/Kintsugi-Code-dev/SKILL.md   project-local dev skill (§13)
 ├── docker-compose.yml          backend+frontend, named volume for SQLite
 ├── .env.example                every configuration variable documented
 ├── README.md / CHANGELOG.md / CONTRIBUTING.md / LICENSE / BUILD_STATUS.md
@@ -100,7 +100,7 @@ no artifacts or secrets.
 ## 3. The backend — module by module, line counts included
 
 ### 3.1 `core/config.py` (65 lines) — configuration
-- `pydantic-settings` BaseSettings, every variable prefixed `CODEFORGE_`, loaded from `backend/.env` if present.
+- `pydantic-settings` BaseSettings, every variable prefixed `Kintsugi-Code_`, loaded from `backend/.env` if present.
 - Defaults chosen so **nothing is required to run**: provider=mock, SQLite in `backend/`, bounded timeouts everywhere.
 - Holds all safety limits in one place: max file size (2 MB), max repo files (20k), agent iterations (12), tool timeout (60 s), command timeout (300 s), output cap (200 KB), context budget (8k tokens), retrieval candidates (50).
 - `get_settings()` is a cached singleton; tests can reset it.
@@ -408,7 +408,7 @@ API has **no auth** — single-user local tool; don't expose port 8000.
 
 ## 9. Graphify — the codebase's own knowledge graph
 
-`graphify-out/` holds a **live structural knowledge graph of CodeForge itself**,
+`graphify-out/` holds a **live structural knowledge graph of Kintsugi-Code itself**,
 built with the graphify tool (v0.9.48) via its OpenCode skill and refreshed
 after every substantial change (`scripts/refresh_graph.py`):
 
@@ -476,14 +476,14 @@ processes — 66 additional live checks beyond pytest.
 ## 12. Infrastructure
 
 - **CI** (`.github/workflows/ci.yml`): backend job (install → **mypy** → pytest → evaluation benchmark) + frontend job (install → **eslint** → **tsc** → build). Free runners only; every gate that exists locally is enforced remotely — nothing passes locally that CI wouldn't.
-- **Docker**: backend `python:3.12-slim` + uvicorn (SQLite on the mounted `codeforge-data` volume so indexes survive); frontend `node:20` build → `nginx:alpine` serving the SPA with `/api` proxy and SPA fallback routing. `docker compose up --build` runs the whole product.
+- **Docker**: backend `python:3.12-slim` + uvicorn (SQLite on the mounted `Kintsugi-Code-data` volume so indexes survive); frontend `node:20` build → `nginx:alpine` serving the SPA with `/api` proxy and SPA fallback routing. `docker compose up --build` runs the whole product.
 - **Local dev**: uvicorn + vite dev proxy; `.env.example` documents all 16 config variables.
 
 ---
 
 ## 13. Project-local OpenCode skill
 
-`.opencode/skills/codeforge-dev/SKILL.md` — makes the repo's own conventions
+`.opencode/skills/Kintsugi-Code-dev/SKILL.md` — makes the repo's own conventions
 executable for future agents: exact commands (pytest/eval/e2e), and five
 rules that encode this project's hard-won lessons: **ranking changes require
 a benchmark re-run (8/8 or revert)**; tool/file-access changes require a
@@ -538,3 +538,4 @@ No API key. No network. That's the point.
 
 *Generated from repository state: 119 tracked files · 71 passing tests ·
 9 commits · every number measured, not estimated.*
+
