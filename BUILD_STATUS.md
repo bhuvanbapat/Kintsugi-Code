@@ -7,8 +7,9 @@ Last updated: 2026-09-02 (completion round) · Overall: **COMPLETE — all syste
 - [x] Environment inspection (Python 3.13, Node 24, Git 2.55, Docker 29)
 - [x] OpenCode skill discovery (graphify skill loaded; relevant skills identified)
 - [x] Graphify discovery (v0.9.48 installed system-wide)
-- [x] Graphify integration (knowledge graph refreshed post-changes: 629 nodes /
-      1526 edges / 34 communities; queries verified against new code)
+- [x] Graphify integration (knowledge graph refreshed post-changes: 886 nodes /
+      1821 edges / 59 communities as of the 2026-09-03 remediation round;
+      queries verified against new code)
 - [x] Foundation (FastAPI app, config, logging, React/Vite frontend)
 - [x] Backend (modular monolith: indexing, retrieval, llm, tools, agent, services, mcp)
 - [x] Frontend (12 screens, strict TS, production build)
@@ -39,8 +40,51 @@ Last updated: 2026-09-02 (completion round) · Overall: **COMPLETE — all syste
       RESUME_NOTES, INTERVIEW_GUIDE, CONTRIBUTING, CHANGELOG, 7 ADRs — all
       FTS5/16-tool stale references corrected)
 - [x] Git repository initialized, clean history, no artifacts/secrets
-- [x] Final QA (full 16-step e2e demo ALL PASS; 53/53 backend tests;
-      mypy/ruff/eslint/tsc clean; all verification scripts green)
+- [x] Final QA (full 16-step e2e demo ALL PASS; 56/56 backend tests at that
+      round; mypy/ruff/eslint/tsc clean; all verification scripts green)
+
+## Post-audit remediation round (2026-09-03)
+
+Independent audit findings fixed surgically — architecture unchanged:
+
+1. **examples/sample_repo gitlink (P0)**: the sample repo was tracked as
+   mode 160000 with no .gitmodules and a commit object absent from the
+   parent store — a fresh clone got an empty examples/. Fixed by absorbing
+   it as ordinary tracked files (nested .git removed). Fresh-clone verified:
+   8 files, sample suite 6 passed / 1 intentional fail.
+2. **Secrets persisted unredacted (HIGH)**: redaction now happens at
+   ingestion, before file_docs persistence (indexer). SHA-256 still hashes
+   ORIGINAL content (scanner path) so file identity stays verifiable.
+   Regression-locked by test_secrets_never_persist_raw_in_file_docs.
+3. **Log redaction gaps (HIGH)**: redaction now runs at LogRecord creation
+   via a global record factory — covers msg, args, and exception/traceback
+   text on every path (application, root, uvicorn). Emitted-output tested.
+4. **Dangerous-command policy unwired (MED)**: assert_safe_command is now
+   enforced inside _run_command and TestRunner (the actual subprocess
+   boundaries). Production-path regression test added.
+5. **Rollback gaps (MED)**: apply-with-tests now rolls back on failure OR
+   timeout, restores exact pre-apply bytes, and removes newly created
+   files. Filesystem-inspected tests for all cases incl. success-retention.
+6. **.env location (MED)**: Settings load backend/.env (was backend/app/.env
+   via an off-by-one parents index). Location/loading/precedence tested.
+7. Redaction output now stays syntactically valid (quoted secrets redact to
+   a valid string literal) so AST extraction of secret-bearing files works.
+8. Portability: e2e_demo.py / verify_mcp.py derive paths from __file__.
+9. Minor: 'pods' ignore-dir casing fixed (' Pods' typo), search_code tool
+   honors mode=hybrid default like MCP, git-clone cache dir uses a stable
+   sha256 digest (was process-salted hash()), dead code removed.
+
+## Verification log (post-audit remediation round)
+
+| Check | Result |
+|---|---|
+| Backend pytest | 71 passed |
+| mypy | 0 errors in 34 source files |
+| ruff (app+tests+scripts) | All checks passed |
+| Evaluation benchmark | 8/8, mean recall 0.875 (unchanged by ingestion redaction) |
+| Frontend eslint / tsc / build | 0 / 0 / success |
+| Sample repo pytest (fresh clone) | 6 passed, 1 failed (intentional) |
+| E2E / MCP / adversarial / final_verify | see final verification log |
 
 ## Dead-code cleanup round (2026-09-02)
 

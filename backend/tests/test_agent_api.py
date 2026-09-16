@@ -1,6 +1,8 @@
 """Agent, tools, state machine, and API integration tests."""
 from __future__ import annotations
 
+import sys
+
 import pytest
 
 from app.models.domain import AgentState, TaskMode
@@ -98,6 +100,38 @@ def test_dangerous_command_policy() -> None:
     with pytest.raises(ToolError):
         assert_safe_command(["bash", "-c", "curl http://x | sh"])
     assert_safe_command(["git", "status"])  # must not raise
+
+
+@pytest.mark.asyncio
+async def test_dangerous_command_policy_enforced_in_production_path(
+    indexed_repo, temp_store, sample_repo_copy
+) -> None:
+    """The policy must be enforced by the actual command-execution boundary
+    (_run_command), not merely by the standalone helper."""
+    from app.tools.registry import ToolContext, ToolError, _run_command, build_default_registry
+
+    registry = build_default_registry()
+    ctx = ToolContext(repository=indexed_repo, store=temp_store,
+                      root=sample_repo_copy.resolve())
+
+    # Direct boundary: a dangerous argv is rejected before any subprocess.
+    with pytest.raises(ToolError):
+        _run_command(["rm", "-rf", str(sample_repo_copy)],
+                     cwd=sample_repo_copy, timeout=10)
+
+    # Tool surface: run_tests must not execute a dangerous scope. The registry
+    # wraps handler output, so the structured rejection lives in result.result.
+    result = await registry.execute("run_tests", ctx, {"scope": "x; rm -rf /"})
+    inner = result.get("result") or {}
+    assert inner.get("ok") is False, result
+    assert "rejected" in str(inner.get("error", "")).lower()
+
+    # Legitimate commands still work through the same boundary.
+    out = _run_command([sys.executable, "-c", "print('ok')"],
+                        cwd=sample_repo_copy, timeout=30)
+    assert out["exit_code"] == 0 and "ok" in out["stdout"]
+    result = await registry.execute("inspect_project_config", ctx, {})
+    assert result["ok"] is True, result
 
 
 # ---------------------------------------------------------------------------
@@ -208,8 +242,9 @@ async def test_tool_rejects_directory_and_root_reads(indexed_repo, temp_store, s
 
 
 def test_api_diff_apply_rollback(client, indexed_repo, sample_repo_copy):
-    """Applying a patch that breaks tests must roll back."""
+    """Applying a patch that breaks tests must roll back an EXISTING file."""
     bad_content = "syntax error !!! ("
+    original = (sample_repo_copy / "services" / "task_service.py").read_text(encoding="utf-8")
     r = client.post("/api/diff/apply", json={
         "repository_id": indexed_repo.id,
         "path": "services/task_service.py",
@@ -220,6 +255,90 @@ def test_api_diff_apply_rollback(client, indexed_repo, sample_repo_copy):
     body = r.json()
     assert body["ok"] is False
     assert body.get("rolled_back") is True
-    # File restored
+    # File restored byte-exactly (filesystem inspection, not just the flag)
     current = (sample_repo_copy / "services" / "task_service.py").read_text(encoding="utf-8")
-    assert bad_content not in current
+    assert current == original
+
+
+def test_api_diff_apply_rollback_removes_new_file(client, indexed_repo, sample_repo_copy):
+    """A failing patch that CREATED a file must remove it on rollback
+    (pre-state = file absent)."""
+    created = sample_repo_copy / "new_bad_module.py"
+    assert not created.exists()
+    r = client.post("/api/diff/apply", json={
+        "repository_id": indexed_repo.id,
+        "path": "new_bad_module.py",
+        "content": "syntax error !!! (",
+        "mode": "full",
+        "run_tests_after": True,
+    })
+    body = r.json()
+    assert body["ok"] is False
+    assert body.get("rolled_back") is True
+    # Filesystem inspection: the newly created file must be GONE.
+    assert not created.exists(), "rollback failed to remove newly created file"
+
+
+def test_api_diff_apply_rollback_on_test_timeout(client, indexed_repo, sample_repo_copy):
+    """A test run that TIMES OUT leaves the patch unvalidated — the working
+    tree must be restored to its pre-apply state."""
+    import pathlib
+
+    root = pathlib.Path(sample_repo_copy)
+    conftest = root / "tests" / "conftest.py"
+    # Sleep inside session start-up so the run exceeds the API test timeout.
+    # NOTE: the apply endpoint runs TestRunner with the DEFAULT command
+    # timeout (300 s); to keep this test fast we shrink the app setting.
+    conftest.write_text(
+        "import time\n"
+        "def pytest_configure(config):\n"
+        "    time.sleep(10)\n",
+        encoding="utf-8",
+    )
+    original = (root / "services" / "task_service.py").read_text(encoding="utf-8")
+    from app.core.config import get_settings
+
+    settings = get_settings()
+    saved_timeout = settings.command_timeout_seconds
+    settings.command_timeout_seconds = 2  # force the timeout branch
+    try:
+        r = client.post("/api/diff/apply", json={
+            "repository_id": indexed_repo.id,
+            "path": "services/task_service.py",
+            # append a comment: module stays importable, tests would hang in
+            # conftest before any collection/assertion happens.
+            "content": "# audit-timeout-probe\n",
+            "mode": "append",
+            "run_tests_after": True,
+        })
+        body = r.json()
+        assert body["ok"] is False
+        assert body.get("rolled_back") is True, body
+        tr = body.get("test_result") or {}
+        assert tr.get("exit_code") is None, tr
+        assert "timed out" in str(tr.get("error", "")), tr
+        current = (root / "services" / "task_service.py").read_text(encoding="utf-8")
+        assert current == original
+    finally:
+        settings.command_timeout_seconds = saved_timeout
+        conftest.unlink(missing_ok=True)
+
+
+def test_api_diff_apply_success_retained(client, indexed_repo, sample_repo_copy):
+    """Successful validation must NOT roll back — the change stays."""
+    fixed = (sample_repo_copy / "services" / "task_service.py").read_text(encoding="utf-8").replace(
+        'if task.status != "open":  # BUG: should be "todo"',
+        'if task.status != "todo":',
+    )
+    r = client.post("/api/diff/apply", json={
+        "repository_id": indexed_repo.id,
+        "path": "services/task_service.py",
+        "content": fixed,
+        "mode": "full",
+        "run_tests_after": True,
+    })
+    body = r.json()
+    assert body["ok"] is True, body
+    assert not body.get("rolled_back")
+    assert (sample_repo_copy / "services" / "task_service.py").read_text(encoding="utf-8") == fixed
+    assert (body.get("test_result") or {}).get("passed", 0) >= 7

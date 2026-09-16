@@ -8,13 +8,13 @@ verify -> final diff -> agent trace -> final state.
 from __future__ import annotations
 
 import json
+import pathlib
 import sys
 import urllib.request
 
 BASE = "http://127.0.0.1:8000/api"
-SAMPLE = (
-    r"C:\Users\bhuva\OneDrive\Desktop\AI Project 1\CodeForge\examples\sample_repo"
-)
+# Repository-relative: <repo>/scripts/e2e_demo.py -> <repo>/examples/sample_repo
+SAMPLE = str(pathlib.Path(__file__).resolve().parent.parent / "examples" / "sample_repo")
 
 
 def call(method: str, path: str, body: dict | None = None) -> dict:

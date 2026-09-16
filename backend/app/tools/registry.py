@@ -121,6 +121,11 @@ def _read_text(path: Path) -> str:
 
 
 def _run_command(cmd: list[str], cwd: Path, timeout: float) -> dict[str, Any]:
+    # Safety policy is enforced at the production execution boundary: every
+    # command that reaches a subprocess is policy-checked first (fixed argv
+    # and shell=False remain the primary injection defenses; this adds the
+    # documented dangerous-command rejection layer).
+    assert_safe_command(cmd)
     settings = get_settings()
     out = subprocess.run(
         cmd, cwd=str(cwd), capture_output=True, text=True, timeout=timeout, shell=False,
@@ -190,7 +195,14 @@ async def search_code(ctx: ToolContext, args: dict[str, Any]) -> dict[str, Any]:
     retriever = get_retriever(ctx.repository.id)
     if retriever is None:
         raise ToolError("repository not indexed")
-    result = retriever.search(args["query"], mode="lexical", limit=int(args.get("limit", 20)))
+    # Same contract as the MCP search_code tool: mode is caller-selectable
+    # (lexical/symbol/hybrid); hybrid is the default.
+    from typing import Literal, cast
+
+    mode = cast(Literal["lexical", "symbol", "hybrid"], str(args.get("mode", "hybrid")))
+    if mode not in ("lexical", "symbol", "hybrid"):
+        raise ToolError(f"invalid search mode: {mode}")
+    result = retriever.search(args["query"], mode=mode, limit=int(args.get("limit", 20)))
     return result
 
 
@@ -413,8 +425,8 @@ def build_default_registry() -> ToolRegistry:
                       parameters={"path": "string", "start_line": "int?", "end_line": "int?"}))
     reg.register(Tool("list_files", "List indexed files", list_files,
                       parameters={"pattern": "string?", "limit": "int?"}))
-    reg.register(Tool("search_code", "Lexical code search", search_code,
-                      parameters={"query": "string", "limit": "int?"}))
+    reg.register(Tool("search_code", "Hybrid/lexical/symbol code search", search_code,
+                      parameters={"query": "string", "mode": "lexical|symbol|hybrid?", "limit": "int?"}))
     reg.register(Tool("search_symbols", "Symbol search", search_symbols,
                       parameters={"query": "string", "limit": "int?"}))
     reg.register(Tool("get_symbol", "Get symbol details with snippet", get_symbol,

@@ -9,7 +9,7 @@ Conventions for working on this codebase.
 
 ## Commands
 
-Backend tests (34 must pass):
+Backend tests (71 must pass):
 ```powershell
 cd backend
 & .venv\Scripts\python.exe -m pytest tests -q

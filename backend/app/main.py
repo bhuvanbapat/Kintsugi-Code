@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 
 from app.core.config import get_settings
 from app.core.logging import get_logger
+from app.core.logging import install as install_logging
 from app.indexing.language import resolve_module_path
 from app.models.domain import (
     Conversation,
@@ -26,6 +27,9 @@ from app.services.indexer import index_repository
 from app.services.rag_service import get_retriever, invalidate_retriever
 from app.services.store import get_store
 
+# Install secret redaction on root + server (uvicorn) logging paths before
+# any request can emit a record.
+install_logging()
 log = get_logger(__name__)
 
 app = FastAPI(
@@ -342,10 +346,6 @@ async def graph(repo_id: str, kind: Literal["files", "symbols"] = "files") -> di
         return {"nodes": nodes, "edges": edges}
 
     # symbols graph
-    nodes = [{"id": s.id, "label": s.name, "type": s.kind.value,
-              "file": s.file_path, "line": s.start_line}
-             for s in symbols if s.kind.value in ("class", "function", "method")]
-    # symbols graph
     sym_nodes = [
         {"id": s.id, "label": s.name, "type": s.kind.value,
          "file": s.file_path, "line": s.start_line}
@@ -499,28 +499,48 @@ async def apply_patch(body: ApplyPatchRequest) -> dict[str, Any]:
         old.splitlines(), new.splitlines(),
         fromfile=f"a/{body.path}", tofile=f"b/{body.path}", lineterm="",
     ))
-    # Backup + apply atomically.
+    # Backup + apply atomically. `existed` records the pre-apply state so
+    # rollback can restore it exactly: original bytes for an existing file,
+    # absence for a newly created one.
     backup = None
+    existed = target.exists()
     try:
-        if target.exists():
+        if existed:
             backup = target.read_text(encoding="utf-8", errors="replace")
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(new, encoding="utf-8")
     except OSError as e:
-        if backup is not None and not target.exists():
-            target.write_text(backup, encoding="utf-8")
+        # Restore pre-apply state on write failure.
+        try:
+            if existed and backup is not None:
+                target.write_text(backup, encoding="utf-8")
+            elif not existed and target.exists():
+                target.unlink()
+        except OSError:
+            pass
         raise HTTPException(500, f"failed to write file: {e}")
+
+    def _rollback() -> None:
+        """Restore the exact pre-apply state of the target file."""
+        if existed:
+            target.write_text(backup or "", encoding="utf-8")
+        elif target.exists():
+            target.unlink()
 
     test_result = None
     if body.run_tests_after:
         from app.services.test_runner import TestRunner
 
         test_result = await TestRunner(root).run("auto")
+        # A test run that fails OR never completes (timeout / could-not-run)
+        # leaves the patch unvalidated: roll back in both cases. Exit code 0
+        # with ok=False would be contradictory; the meaningful failure signals
+        # are ok=False with a non-zero exit, or ok=False with no exit code
+        # (timeout / command missing / policy rejection).
         tests_failed = test_result.get("ok") is False
-        exit_suggests_failure = test_result.get("exit_code") not in (0, None)
-        if tests_failed and backup is not None and exit_suggests_failure:
-            # Rollback on failing tests if the file existed before.
-            target.write_text(backup, encoding="utf-8")
+        validation_incomplete = test_result.get("exit_code") is None
+        if tests_failed and (validation_incomplete or test_result.get("exit_code") != 0):
+            _rollback()
             return {"ok": False, "rolled_back": True, "diff": diff_text,
                     "test_result": test_result,
                     "message": "patch applied but tests failed — rolled back"}

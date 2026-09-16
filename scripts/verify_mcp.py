@@ -1,5 +1,6 @@
 """Verify the CodeForge MCP server over real stdio (subprocess round-trip)."""
 import json
+import pathlib
 import subprocess
 import sys
 import urllib.request
@@ -24,11 +25,14 @@ def main() -> int:
         print("FAIL: no indexed repository in running backend")
         return 1
 
+    # Run the MCP server module from the repo's backend/ directory (portable:
+    # derived from this script's location, no machine-specific paths).
+    backend_dir = pathlib.Path(__file__).resolve().parent.parent / "backend"
     proc = subprocess.Popen(
         [sys.executable, "-m", "app.mcp.server"],
         stdin=subprocess.PIPE, stdout=subprocess.PIPE,
         stderr=subprocess.PIPE, text=True, encoding="utf-8",
-        cwd=__file__.rsplit("\\", 2)[0] + r"\backend",
+        cwd=str(backend_dir),
     )
     try:
         def send(msg: dict) -> dict:

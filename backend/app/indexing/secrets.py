@@ -42,16 +42,31 @@ def find_secrets(text: str) -> list[tuple[int, int, int, str]]:
 
 
 def redact(text: str) -> str:
-    """Replace likely secret values with REDACTED, preserving key names."""
+    """Replace likely secret values with REDACTED, preserving key names.
+
+    Quoted values keep their quotes in the replacement so the result stays a
+    syntactically valid string literal: `key = "secret"` -> `key = "[REDACTED_SECRET]"`.
+    Some patterns consume the opening quote inside the match while the closing
+    quote lies just outside it (the match ends at the value's last char), so
+    the replacement re-balances by wrapping REDACTED in the detected quote.
+    """
     out = text
     for pattern, _ in SECRET_PATTERNS:
         def _sub(m: re.Match[str]) -> str:
             whole = m.group(0)
-            # Preserve "key =" / "key:" prefix when the match spans an assignment.
             for sep in ("=", ":"):
                 idx = whole.find(sep)
                 if idx != -1:
-                    return whole[: idx + 1] + REDACTED
+                    prefix = whole[: idx + 1]
+                    rest = whole[idx + 1:]
+                    stripped = rest.lstrip()
+                    if stripped[:1] in ("'", '"'):
+                        # The opening quote was consumed inside the match; the
+                        # source's own closing quote sits just past the match
+                        # end. Re-emit only the opening quote so the string
+                        # literal stays balanced and parseable.
+                        return prefix + rest[: len(rest) - len(stripped)] + stripped[0] + REDACTED
+                    return prefix + REDACTED
             return REDACTED
         out = pattern.sub(_sub, out)
     return out

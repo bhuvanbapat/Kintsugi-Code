@@ -49,7 +49,7 @@ Every arrow above is a real, inspectable subsystem documented in this file.
 CodeForge/
 ├── backend/                    Python FastAPI application (the engine)
 │   ├── app/
-│   │   ├── main.py             All 24 HTTP endpoints (§4)
+│   │   ├── main.py             All 25 HTTP routes / 23 paths (§4)
 │   │   ├── core/               config (env-driven settings), logging (secret-redacting)
 │   │   ├── models/             domain.py — every Pydantic model in one file
 │   │   ├── indexing/           scanner, language detection, AST parser, secrets
@@ -61,7 +61,7 @@ CodeForge/
 │   │   │                       git_import, rag_service (retriever cache)
 │   │   ├── mcp/                MCP stdio server + client
 │   │   └── api/                (package placeholder for future route splitting)
-│   ├── tests/                  49 test functions across 7 files (§11)
+│   ├── tests/                  64 test functions across 9 files (§11)
 │   ├── scripts/run_evaluation.py   benchmark runner (CI uses it too)
 │   ├── Dockerfile              python:3.12-slim + uvicorn
 │   └── pyproject.toml          deps + ruff/mypy/pytest config
@@ -90,24 +90,25 @@ CodeForge/
 └── PROJECT_REFERENCE.md        ← this file
 ```
 
-**Measured size**: 111 tracked files · ~4,060 lines of backend Python (2,546
-application + 1,514 test) · ~2,217 lines of frontend TypeScript/CSS ·
-~977 lines of markdown documentation · 6 commits, no artifacts or secrets.
+**Measured size** (post-audit remediation round): 119 tracked files · ~5,132
+lines of backend Python (4,271 application + 861 test) · ~2,378 lines of
+frontend TypeScript/CSS · ~2,155 lines of markdown documentation · 9 commits,
+no artifacts or secrets.
 
 ---
 
 ## 3. The backend — module by module, line counts included
 
-### 3.1 `core/config.py` (47 lines) — configuration
+### 3.1 `core/config.py` (65 lines) — configuration
 - `pydantic-settings` BaseSettings, every variable prefixed `CODEFORGE_`, loaded from `backend/.env` if present.
 - Defaults chosen so **nothing is required to run**: provider=mock, SQLite in `backend/`, bounded timeouts everywhere.
 - Holds all safety limits in one place: max file size (2 MB), max repo files (20k), agent iterations (12), tool timeout (60 s), command timeout (300 s), output cap (200 KB), context budget (8k tokens), retrieval candidates (50).
 - `get_settings()` is a cached singleton; tests can reset it.
 
-### 3.2 `core/logging.py` (31 lines) — leak-proof logging
-- `SecretRedactingFilter` sits on every handler and scrubs OpenAI keys / GitHub PATs / generic `secret=...` patterns from **all log output** before it reaches the console.
+### 3.2 `core/logging.py` — leak-proof logging
+- Redaction runs at **LogRecord creation** via a global record factory (plus root/uvicorn logger filters as defense in depth) and scrubs OpenAI keys / GitHub PATs / generic `secret=...` patterns from messages, log arguments, and **exception/traceback text** across all logging paths — application loggers, root-level calls, and uvicorn's server loggers alike.
 
-### 3.3 `models/domain.py` (175 lines) — the entire data model
+### 3.3 `models/domain.py` (228 lines) — the entire data model
 One file, zero hidden state. The important models:
 
 | Model | What it is |
@@ -124,12 +125,12 @@ One file, zero hidden state. The important models:
 
 Enums that matter: `AgentState` (11 states), `TaskMode` (explain/locate/analyze/plan/test/fix/review), `ExecutionMode` (analysis_only / plan_only / review_required / controlled_execution), `Confidence` (confirmed_from_code / inference / uncertain).
 
-### 3.4 `indexing/language.py` (95 lines) — classification
+### 3.4 `indexing/language.py` (114 lines) — classification
 - Extension→language map (25 languages), `AST_LANGUAGES = {python, javascript, typescript}`.
 - `is_test_file` (path *and* name markers), `is_doc_file`, `is_config_file`, `is_manifest_file`, `is_source_file`.
 - **`resolve_module_path`** — the shared dotted-module→file resolver (e.g. `data.repositories` → `data/repositories.py`), used by the repo map, the graph API, and the `find_path` tool so all three resolve imports identically. (This was a duplicate function until the dead-code round consolidated it.)
 
-### 3.5 `indexing/scanner.py` (164 lines) — the untrusted-input gate
+### 3.5 `indexing/scanner.py` (183 lines) — the untrusted-input gate
 - `normalize_repo_path`: resolves, validates existence, refuses non-directories.
 - Ignore engine: 30+ vendored/build dirs (node_modules, .git, __pycache__, dist, target, venv…), 40+ binary extensions, secret-shaped filenames (id_rsa, *.pem, .env files).
 - `os.walk(followlinks=False)` — **symlink escapes are impossible**.
@@ -137,12 +138,12 @@ Enums that matter: `AgentState` (11 states), `TaskMode` (explain/locate/analyze/
 - Binary sniff: NUL byte in first 4 KB → skipped as text.
 - Output: `ScanResult` with per-language counts, per-file classification, ignored/parse-error tallies, sha256 per file.
 
-### 3.6 `indexing/secrets.py` (49 lines) — redaction before storage
+### 3.6 `indexing/secrets.py` — redaction before storage
 - 8 conservative regex families: OpenAI-style keys, GitHub PATs/OAuth, Slack tokens, AWS access-key IDs, private-key blocks, password/credential assignments.
 - `find_secrets` → list of (line, span, description) findings (counted per repo, surfaced in scan stats).
-- `redact` → replaces values with `[REDACTED_SECRET]` **preserving key names** (`API_KEY=[REDACTED_SECRET]`) so code stays readable. Applied to every file before it enters storage, retrieval, tool output, or LLM context.
+- `redact` → replaces values with `[REDACTED_SECRET]` **preserving key names** (`API_KEY=[REDACTED_SECRET]`) so code stays readable. Quoted values redact to a **syntactically valid string literal** (`password = "[REDACTED_SECRET]"`) so the redacted source remains parseable. Applied at ingestion to every file **before it enters storage** — and therefore before retrieval, tool output, or LLM context. FileEntry sha256 hashes the ORIGINAL content (scanner path), so file identity stays verifiable against disk.
 
-### 3.7 `indexing/ast_parser.py` (244 lines) — real structural parsing
+### 3.7 `indexing/ast_parser.py` (279 lines) — real structural parsing
 - **Primary: tree-sitter** via `tree_sitter_language_pack` for Python/JS/TS.
 - Walks the parse tree: `function_definition/class_definition/method_definition/import_statement` → `Symbol` rows; containment edges (file→symbol, class→method); import edges.
 - **The byte-offset discipline** (a bug we shipped and fixed): tree-sitter spans are *byte* offsets; every slice goes through `source.encode("utf-8")` first. The original string-slicing version mis-named every symbol after the first non-ASCII character in a file.
@@ -151,25 +152,25 @@ Enums that matter: `AgentState` (11 states), `TaskMode` (explain/locate/analyze/
 - `extract_symbols` **never raises** — a file that fails parse is counted and skipped.
 - `_signature_line`: first source line of a definition, trimmed to 300 chars, redacted.
 
-### 3.8 `retrieval/hybrid.py` (178 lines) — three-tier search
+### 3.8 `retrieval/hybrid.py` (197 lines) — three-tier search
 - **Tier 1 — lexical**: pure-Python **BM25** (k1=1.5, b=0.75) over an in-memory token index built once per repository. *History:* originally SQLite FTS5-primary with BM25 fallback; the FTS connection was thread-affine and crashed `/api/evaluation/run` under FastAPI's thread pool — FTS was removed entirely, BM25 promoted to the single path, and the benchmark re-run confirmed identical quality (8/8, recall 0.875). ADR-003 documents the amendment.
 - **Tier 2 — structural**: rarity-weighted symbol-name matching. Exact match 50 pts; substring hits scaled by name length; every token weighted by `8 / (1 + df/10)` so **rare tokens dominate**; 26-stopword list; classes/functions boosted. *This scoring exists because the benchmark caught `Task` out-ranking `validate_priority`* — the fix was measured before/after (case sym-2: FAIL → PASS).
 - **Tier 3 — file priors**: manifests +5, tests −2, entrypoint-ish names +1.5.
 - Fusion: lexical score + symbol-evidence bonus + importance prior → ranked files. Modes: `lexical`, `symbol`, `hybrid`; optional file glob filter, kind filter, test inclusion.
 
-### 3.9 `retrieval/context_engine.py` (98 lines) — the budget keeper
+### 3.9 `retrieval/context_engine.py` (114 lines) — the budget keeper
 - `detect_query_intent`: keyword-based classify into locate/analyze/plan/explain.
 - `build_context`: hybrid search → **structural expansion** (files defining top symbols get included whole) → for the rest, **best-line windowing** (±12 lines around the densest query-token match, +0.5 for definition lines) → hard **token budget** (chars÷4), trimming the *last* file rather than dropping it silently.
 - Output: query, intent, citations[] (with confidence), files[{path, lines, snippet}], retrieval_stats (lexical hits, symbol hits, files included, estimated tokens).
 - The whole-repo-to-LLM anti-pattern is structurally impossible here: nothing enters a prompt that didn't come through this budget.
 
-### 3.10 `llm/providers.py` (160 lines) — provider abstraction
+### 3.10 `llm/providers.py` (200 lines) — provider abstraction
 - `LLMProvider` interface: `complete(system, prompt, context)` → `LLMResponse`.
 - **`OpenAIProvider`**: plain httpx against any OpenAI-compatible `/chat/completions` (OpenAI, Ollama, vLLM, LM Studio). Bearer header only if a key is set. Token usage surfaced when the provider reports it.
 - **`MockProvider`** (the default): composes answers **from the retrieval context passed in** — LOCATED/ANALYSIS/PLAN header per task mode, top matching files with line ranges, key definitions regex-extracted from the top snippet, EVIDENCE block, and an explicit `CONFIDENCE: confirmed_from_code` label. It cannot invent files: its entire input is structured retrieval output.
 - Usage honesty: `usage_available=False` → the UI shows "unavailable". Estimates are labeled as estimates. Nothing fabricated.
 
-### 3.11 `tools/registry.py` (367 lines) — the 17 tools and their cage
+### 3.11 `tools/registry.py` (460 lines) — the 17 tools and their cage
 | # | Tool | Kind | What it does |
 |---|---|---|---|
 | 1 | `read_file` | read | line-range file read (redacted, binary-safe) |
@@ -192,17 +193,17 @@ Enums that matter: `AgentState` (11 states), `TaskMode` (explain/locate/analyze/
 
 **The cage (all unit-tested):**
 - `ToolContext.resolve_in_repo`: every path resolved then `relative_to(root)`-checked → traversal raises; **root itself and directories are rejected** (the adversarial round found the directory-read crash).
-- `assert_safe_command`: regex policy blocks `rm -rf`, `del /s`, `format`, `mkfs`, fork bombs, `curl|sh` patterns.
+- `assert_safe_command`: regex policy blocks `rm -rf`, `del /s`, `format`, `mkfs`, fork bombs, `curl|sh` patterns — **enforced at the subprocess execution boundary** (`_run_command`, `TestRunner.run`, `TestRunner.static_check`).
 - `_run_command`: `shell=False` always, timeout, output truncation, **redaction on captured output**.
 - `_sanitize_error`: host filesystem paths replaced with `<repo>` in every tool error (info-disclosure fix).
 - Modification tools are double-gated: by TaskMode allow-lists **and** ExecutionMode.
 
-### 3.12 `agent/` (435 lines) — the controlled loop
-**`state_machine.py` (37 lines)**: 11-state machine with an explicit transition table; invalid transitions raise (tested). Terminal states accept nothing.
+### 3.12 `agent/` (471 lines) — the controlled loop
+**`state_machine.py` (43 lines)**: 11-state machine with an explicit transition table; invalid transitions raise (tested). Terminal states accept nothing.
 
-**`skills.py` (141 lines)** — the product skill architecture (§54 of the build directive): a frozen `SkillSpec` per TaskMode — name (repository-analysis, symbol-location, failure-analysis, implementation-planning, test-analysis, bug-fixing, code-review), purpose, inputs, allowed_tools, workflow steps, expected output, failure conditions. **The engine's tool policy is derived from these specs** (`MODE_TOOLS = {mode: set(spec.allowed_tools)}`), so the documented skill *is* the executable policy — tests assert they can't drift.
+**`skills.py` (151 lines)** — the product skill architecture (§54 of the build directive): a frozen `SkillSpec` per TaskMode — name (repository-analysis, symbol-location, failure-analysis, implementation-planning, test-analysis, bug-fixing, code-review), purpose, inputs, allowed_tools, workflow steps, expected output, failure conditions. **The engine's tool policy is derived from these specs** (`MODE_TOOLS = {mode: set(spec.allowed_tools)}`), so the documented skill *is* the executable policy — tests assert they can't drift.
 
-**`engine.py` (257 lines)**: the loop —
+**`engine.py` (277 lines)**: the loop —
 ```
 IDLE→ANALYZING→RETRIEVING→PLANNING→[EXECUTING⇄TESTING/DIAGNOSING]→…→COMPLETED/FAILED
 ```
@@ -213,24 +214,27 @@ IDLE→ANALYZING→RETRIEVING→PLANNING→[EXECUTING⇄TESTING/DIAGNOSING]→�
 - Every call recorded as ToolCallRecord (name, args, summary, error, duration_ms) into the run; runs persisted for the trace viewer.
 
 ### 3.13 `services/` — persistence, execution, measurement
-**`store.py` (282 lines)**: single SQLite file, WAL mode, thread-local connections. Tables: repositories, files, symbols, relationships, file_docs (redacted content), runs, conversations, kv. All payloads are serialized Pydantic models. Idempotent replace-per-repo operations. (`kv` stores runtime settings overrides + evaluation results.)
+**`store.py` (319 lines)**: single SQLite file, WAL mode, thread-local connections. Tables: repositories, files, symbols, relationships, file_docs (redacted content), runs, conversations, kv. All payloads are serialized Pydantic models. Idempotent replace-per-repo operations. (`kv` stores runtime settings overrides + evaluation results.)
 
-**`indexer.py` (124 lines)**: the pipeline — scan → classify → redact → AST-extract (per-file, error-isolated) → persist all four tables → build scan_stats (including symbols/relationships counts and secret-flagged files). `build_repository_map` produces the compact file→symbols map used by agents and the UI.
+**`indexer.py` (147 lines)**: the pipeline — scan → classify → redact → AST-extract (per-file, error-isolated) → persist all four tables → build scan_stats (including symbols/relationships counts and secret-flagged files). `build_repository_map` produces the compact file→symbols map used by agents and the UI.
 
-**`test_runner.py` (148 lines)**: `detect_project_type` from manifests — pyproject/setup/requirements→pytest, package.json→npm/pnpm/yarn scripts, go.mod, Cargo.toml, pom.xml, build.gradle. Runs the detected command (timeout, redaction, truncation), parses **passed/failed/errors/skipped + failed test names** from pytest and JS/go/rust/maven formats, reports real `duration_ms`.
+**`test_runner.py` (177 lines)**: `detect_project_type` from manifests — pyproject/setup/requirements→pytest, package.json→npm/pnpm/yarn scripts, go.mod, Cargo.toml, pom.xml, build.gradle. Runs the detected command (timeout, redaction, truncation), parses **passed/failed/errors/skipped + failed test names** from pytest and JS/go/rust/maven formats, reports real `duration_ms`.
 
-**`evaluator.py` (95 lines)**: 8 curated benchmark cases (architecture, 2× symbol location, dependency lookup, bug finding, relevant-file, planning, test diagnosis) with expected files/symbols; computes **recall** (hits@top-10 / expected), **precision**, **latency**, pass rule = recall ≥ 0.5 ∧ all expected symbols found. Persists per-run results.
+**`evaluator.py` (102 lines)**: 8 curated benchmark cases (architecture, 2× symbol location, dependency lookup, bug finding, relevant-file, planning, test diagnosis) with expected files/symbols; computes **recall** (hits@top-10 / expected), **precision**, **latency**, pass rule = recall ≥ 0.5 ∧ all expected symbols found. Persists per-run results.
 
-**`git_import.py` (51 lines)**: §27B — https-only URL regex (rejects ssh://, scp-syntax, file://, plain http, traversal, metacharacters), depth-50 single-branch clone, 300 s timeout, deterministic cache dir per URL.
+**`git_import.py` (63 lines)**: §27B — https-only URL regex (rejects ssh://, scp-syntax, file://, plain http, traversal, metacharacters), depth-50 single-branch clone, 300 s timeout, deterministic cache dir per URL.
 
-**`rag_service.py` (29 lines)**: process-level retriever cache; `build_retriever` wires store→files/symbols/redacted-content; invalidation on re-index.
+**`rag_service.py` (38 lines)**: process-level retriever cache; `build_retriever` wires store→files/symbols/redacted-content; invalidation on re-index.
 
-### 3.14 `mcp/` (286 lines) — Model Context Protocol, both directions
-**`server.py` (206 lines)**: stdio transport, JSON-RPC 2.0, MCP 2024-11-05 core — `initialize`, `tools/list`, `tools/call`, `ping`. Exposes 8 tools (search_code, get_symbol, get_repository_map, get_dependencies, find_path, list_files, read_file + set_repository). MCP calls flow through the **same registry cage** (containment, redaction, caps). No mutation tools exposed.
+### 3.14 `mcp/` (320 lines) — Model Context Protocol, both directions
+**`server.py` (225 lines)**: stdio transport, JSON-RPC 2.0, MCP 2024-11-05 core — `initialize`, `tools/list`, `tools/call`, `ping`. Exposes 8 tools (search_code, get_symbol, get_repository_map, get_dependencies, find_path, list_files, read_file + set_repository). MCP calls flow through the **same registry cage** (containment, redaction, caps). No mutation tools exposed.
 
-**`client.py` (80 lines)**: spawns any external MCP server (stdio), initialize → list_tools → call_tool with a send lock; `load_mcp_config()` reads optional `mcp_servers.json`.
+**`client.py` (95 lines)**: spawns any external MCP server (stdio), initialize → list_tools → call_tool with a send lock; `load_mcp_config()` reads optional `mcp_servers.json`.
 
-### 3.15 `main.py` (565 lines) — the 24 endpoints
+### 3.15 `main.py` — the API surface
+
+25 method-level routes across 23 unique paths (two paths carry two methods:
+`/api/settings` GET+POST, `/api/repositories/{id}` GET+DELETE).
 | Endpoint | Method | Purpose |
 |---|---|---|
 | `/api/health` | GET | liveness + provider/model |
@@ -251,7 +255,7 @@ IDLE→ANALYZING→RETRIEVING→PLANNING→[EXECUTING⇄TESTING/DIAGNOSING]→�
 | `/api/tools/execute` | POST | direct tool invocation (same cage) |
 | `/api/tests/run` | POST | run repo tests |
 | `/api/diff` | GET | git working-tree diff |
-| `/api/diff/apply` | POST | **the controlled write**: containment → old/new → unified diff → atomic write w/ backup → optional test run → **auto-rollback on failure** → {diff, ±counts, test_result, rolled_back} |
+| `/api/diff/apply` | POST | **the controlled write**: containment → old/new → unified diff → atomic write w/ backup → optional test run → **auto-rollback on failure or timeout** (restores exact bytes; removes newly created files) → {diff, ±counts, test_result, rolled_back} |
 | `/api/evaluation/run` | POST | benchmark against a repo |
 | `/api/evaluation/benchmark` | GET | case definitions |
 | `/api/conversations` | GET | history |
@@ -331,7 +335,7 @@ restores it after fixing, so the demo is endlessly repeatable.
 
 | Verification | Method | Result |
 |---|---|---|
-| Backend unit/integration | `pytest tests -q` — 49 test functions / 7 files | **56 passed** (incl. parametrized) |
+| Backend unit/integration | `pytest tests -q` — 64 test functions / 9 files | **71 passed** (incl. parametrized) |
 | Type safety | `mypy app` (CI-enforced) | **0 errors / 34 files** |
 | Lint | `ruff check app tests scripts` | **clean** |
 | Frontend | `eslint --max-warnings 0`, `tsc --strict`, `vite build` | **0 / 0 / success** |
@@ -385,12 +389,12 @@ meaningful number, and the docs say so plainly.
 | Arbitrary code exec from repos | scanning never runs repo code; only allow-listed git/test commands | `test_dangerous_command_policy` |
 | Path traversal (tool + API) | resolve + `relative_to` + root/directory rejection | `test_tool_path_security`, `test_api_file_traversal_blocked`, empty/directory regression tests |
 | Command injection | fixed argv lists, `shell=False` everywhere | code path review + policy test |
-| Dangerous commands | regex policy (rm -rf, curl\|sh, fork bombs…) | policy test |
-| Secret exposure | detection → `[REDACTED_SECRET]` before storage/retrieval/LLM/logs; log filter | `test_secret_detection_and_redact*` |
+| Dangerous commands | regex policy (rm -rf, curl\|sh, fork bombs…) enforced at the subprocess execution boundary | `test_dangerous_command_policy`, `test_dangerous_command_policy_enforced_in_production_path` |
+| Secret exposure | detection → `[REDACTED_SECRET]` at ingestion, before SQLite storage — and therefore before retrieval/LLM/tool output; log redaction at record creation incl. exception text | `test_secret_detection_and_redact*`, `test_secrets_never_persist_raw_in_file_docs`, `test_logging_security.py` |
 | Prompt injection | repo content is retrieval **data**, never instructions; system prompt fixed; mock provider formats structured evidence only | design (ADR-005) |
 | Oversized inputs | file-size/repo-count caps, output truncation, tool timeouts | scanner test |
 | Agent runaway | iteration cap, repeat/no-progress detection, per-tool timeout | engine tests |
-| Unsafe modification | double tool gating + apply-with-backup + **auto-rollback on failing tests** | `test_api_diff_apply_rollback` |
+| Unsafe modification | double tool gating + apply-with-backup + **auto-rollback on failing tests or timeout** (exact-byte restore; newly created files removed) | `test_api_diff_apply_rollback`, `..._removes_new_file`, `..._on_test_timeout`, `..._success_retained` |
 | Symlink escape | `followlinks=False` | scanner code |
 | Info disclosure | error sanitization (`<repo>`), settings key masking | adversarial round |
 | Git clone abuse | https-only, traversal-free, depth+time limited, no fetch of repo hooks | `test_git_import.py` (10 cases) |
@@ -408,17 +412,24 @@ API has **no auth** — single-user local tool; don't expose port 8000.
 built with the graphify tool (v0.9.48) via its OpenCode skill and refreshed
 after every substantial change (`scripts/refresh_graph.py`):
 
-- **629 nodes / 1,526 edges / 34 communities** (AST-derived; extraction
-  warnings resolved; HTML viz at `graph.html`, audit at `GRAPH_REPORT.md`).
+- **886 nodes / 1,821 edges / 59 communities** (AST-derived; refreshed
+  2026-09-03 after the post-audit remediation round via `graphify update .`;
+  HTML viz at `graph.html`, audit at `GRAPH_REPORT.md` — all three artifacts
+  regenerated from the same run). Freshness is content-verified: the
+  regenerated graph contains the security fixes (e.g. `_sanitize_error`)
+  and both new test modules (`test_logging_security`, `test_config_env`).
 - Communities mirror the real architecture (Agent Engine, AST Parser,
   Persistence Store, FastAPI Routes, Frontend UI…), which was used to sanity
   check module boundaries during development.
 - Query-verified against new code after the completion round
   (`graphify query "Where are the agent skill specs defined?"` → correctly
   surfaces `backend/app/agent/skills.py` + its tests).
-- Honest note: 10 extraction warnings (5 missing `relation`, 5 missing
-  `source_file` fields on hand-authored semantic edges) are cosmetic; the
-  graph is fully usable.
+- Honest note: an earlier build reported 10 extraction warnings (5 missing
+  `relation`, 5 missing `source_file` on hand-authored semantic edges). The
+  current refresh pipeline emits **no extraction warnings** (91% EXTRACTED /
+  9% INFERRED / 0% AMBIGUOUS); the historical warning count is not
+  reproducible against the current tool state and is recorded here for
+  provenance only.
 
 ---
 
@@ -440,17 +451,22 @@ after every substantial change (`scripts/refresh_graph.py`):
 
 ---
 
-## 11. Test inventory (49 functions)
+## 11. Test inventory (64 functions → 71 pytest cases)
 
 | File | Covers |
 |---|---|
-| `test_scanner_secrets.py` | language detection, test/doc/config classification, ignore rules (node_modules/.git/pycache/secrets/binaries), size caps, secret detection + redaction + key-name preservation |
+| `test_scanner_secrets.py` | language detection, test/doc/config classification, ignore rules (node_modules/.git/pycache/secrets/binaries/pods), size caps, secret detection + redaction + key-name preservation + **parse-preserving redaction** + **no-raw-secrets-in-file_docs (ingestion-time storage redaction)** |
 | `test_index_retrieval.py` | symbol extraction (names/kinds), relationships (imports/contains), scan stats, symbol/lexical/hybrid search ranking, query-intent detection, context budgeting, no-match behavior |
-| `test_agent_api.py` | state-machine validity/invalid transitions, agent EXPLAIN/LOCATE/TEST runs, tool path containment, read+search tools, command policy, **full API flow** (import→index→search→symbols→chat→graph→file), traversal blocking, **rollback-on-failing-patch**, empty/directory path rejections, tool error sanitization |
+| `test_agent_api.py` | state-machine validity/invalid transitions, agent EXPLAIN/LOCATE/TEST runs, tool path containment, read+search tools, command policy **(helper + production-path enforcement)**, **full API flow** (import→index→search→symbols→chat→graph→file), traversal blocking, **rollback-on-failing-patch (existing-file / new-file / timeout / success-retained)**, empty/directory path rejections, tool error sanitization |
 | `test_mcp.py` | initialize, tools/list, set_repository + get_symbol + search_code over the dispatcher, no-active-repo error, unknown-method error |
 | `test_git_import.py` | valid https URLs, 8 rejected URL classes (ssh/scp/file/http/traversal/metacharacters), clone shape, API-level rejection |
 | `test_skills.py` | every TaskMode has a complete SkillSpec, read-only modes have zero modification tools, FIX is the only modifying skill, engine policy == specs, find_path (1-hop correct path, unreachable, invalid inputs), tools listing |
+| `test_logging_security.py` | secret redaction across logging paths — emitted-output tests for message, arguments, exception text, root-logger propagation, uvicorn logger coverage |
+| `test_config_env.py` | `.env` location contract (backend/.env), actual file loading, process-env precedence |
 | `conftest.py` | temp-store, sample-repo-copy, indexed-repo, TestClient fixtures with store monkeypatching |
+
+Counting semantics: 64 test functions; `test_git_import.test_rejected_urls` is
+parametrized over 8 URL classes, so `pytest` collects **71 cases**.
 
 Plus **five verification suites** in `scripts/` (§7) that run against live
 processes — 66 additional live checks beyond pytest.
@@ -520,5 +536,5 @@ No API key. No network. That's the point.
 
 ---
 
-*Generated from repository state: 111 tracked files · 56 passing tests ·
-6 commits · every number measured, not estimated.*
+*Generated from repository state: 119 tracked files · 71 passing tests ·
+9 commits · every number measured, not estimated.*

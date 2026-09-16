@@ -27,7 +27,7 @@ log = get_logger(__name__)
 DEFAULT_IGNORED_DIRS = {
     ".git", ".hg", ".svn", "node_modules", ".venv", "venv", "__pycache__",
     "dist", "build", "target", "out", ".next", ".nuxt", ".cache", ".idea",
-    ".vscode", ".tox", ".mypy_cache", ".pytest_cache", "vendor", " Pods",
+    ".vscode", ".tox", ".mypy_cache", ".pytest_cache", "vendor", "pods",
     ".terraform", "coverage", ".circleci", "__snapshots__",
 }
 DEFAULT_IGNORED_FILES = {

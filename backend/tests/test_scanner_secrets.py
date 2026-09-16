@@ -35,6 +35,7 @@ def test_ignore_rules() -> None:
     assert _is_ignored("logo.png", set())
     assert not _is_ignored("src/main.py", set())
     assert _is_ignored("dist/bundle.js", set())
+    assert _is_ignored("Pods/Alamofire/Source.swift", set())  # was ' Pods' typo
 
 
 def test_scanner_skips_ignored_and_large(tmp_path: Path) -> None:
@@ -79,3 +80,71 @@ def test_redact_preserves_key_names() -> None:
     out = redact("API_KEY=sk-abcdefghijklmnopqrstuvwxyz123")
     assert out.startswith("API_KEY=")
     assert "[REDACTED_SECRET]" in out
+
+
+def test_redact_output_stays_parseable() -> None:
+    """Redaction must not corrupt source into unparseable text (the redacted
+    text is what feeds AST extraction at ingestion time)."""
+    import ast
+
+    src = 'password = "hunter2secret"\n\ndef f():\n    return 1\n'
+    out = redact(src)
+    ast.parse(out)  # must not raise
+    assert out.splitlines()[0] == 'password = "[REDACTED_SECRET]"'
+
+
+def test_secrets_never_persist_raw_in_file_docs(tmp_path: Path) -> None:
+    """SECURITY REGRESSION: raw secret values must never enter the persisted
+    file_docs table. Redaction happens at ingestion, before storage."""
+    from app.models.domain import Repository
+    from app.services.indexer import index_repository
+    from app.services.store import Store
+
+    root = tmp_path / "secretrepo"
+    root.mkdir()
+    (root / "creds.py").write_text(
+        'API_KEY = "sk-abcdefghijklmnopqrstuvwx0123"\n'
+        'password = "hunter2secret"\n'
+        "def use():\n"
+        '    return API_KEY\n',
+        encoding="utf-8",
+    )
+    (root / "clean.py").write_text("def clean():\n    return 2\n", encoding="utf-8")
+
+    store = Store(db_path=str(tmp_path / "t.db"))
+    repo = Repository(name="secretrepo", root_path=str(root))
+    store.upsert_repository(repo)
+    index_repository(repo, store)
+
+    persisted = store.get_file_content(repo.id, "creds.py")
+    assert persisted is not None, "creds.py should be persisted"
+    # raw values absent
+    assert "sk-abcdefghijklmnopqrstuvwx0123" not in persisted
+    assert "hunter2secret" not in persisted
+    # redacted representation present, key names preserved
+    assert "[REDACTED_SECRET]" in persisted
+    assert persisted.splitlines()[0] == 'API_KEY = "[REDACTED_SECRET]"'
+    # structure preserved: symbols still extractable from redacted source
+    names = {s.name for s in store.list_symbols(repo.id)}
+    assert "use" in names
+    # sha256 contract: FileEntry hash is computed by the scanner over the
+    # ORIGINAL file content (read_text_safe round-trip), not over the
+    # redacted text that is persisted — so file identity remains verifiable
+    # against the on-disk source even after storage redaction.
+    import hashlib
+
+    from app.indexing.scanner import read_text_safe
+
+    original = read_text_safe(root / "creds.py")
+    expected_sha = hashlib.sha256(original.encode("utf-8", errors="replace")).hexdigest()
+    entry = next(f for f in store.list_files(repo.id) if f.path == "creds.py")
+    assert entry.sha256 == expected_sha
+    # retrieval cannot recover the raw value either
+    from app.services.rag_service import build_retriever
+
+    retriever = build_retriever(store, repo.id)
+    assert retriever is not None
+    hit = retriever.contents.get("creds.py", "")
+    assert "sk-abcdefghijklmnopqrstuvwx0123" not in hit
+    assert "hunter2secret" not in hit
+    assert "[REDACTED_SECRET]" in hit

@@ -6,6 +6,7 @@ The resulting tree is then treated exactly like a local repo by the scanner.
 """
 from __future__ import annotations
 
+import hashlib
 import re
 import subprocess
 import tempfile
@@ -37,9 +38,11 @@ def clone_repository(url: str, target_root: Path | None = None) -> Path:
     validate_git_url(url)
     base = target_root or Path(tempfile.gettempdir()) / "codeforge-clones"
     base.mkdir(parents=True, exist_ok=True)
-    # Deterministic dir name from the URL tail; avoid collisions safely.
+    # Deterministic dir name from the URL: stable digest (PYTHONHASHSEED-proof)
+    # so the same URL maps to the same cache dir across process restarts.
+    url_digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:8]
     tail = url.rstrip("/").split("/")[-1].replace(".git", "") or "repo"
-    dest = base / f"{tail}-{abs(hash(url)) % 100000}"
+    dest = base / f"{tail}-{url_digest}"
     if dest.exists():
         # Reuse an existing clone; caller can re-index to refresh.
         return dest

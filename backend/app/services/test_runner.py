@@ -75,6 +75,8 @@ class TestRunner:
     async def run(self, scope: str = "auto", timeout: float | None = None) -> dict[str, Any]:
         import time as _time
 
+        from app.tools.registry import assert_safe_command
+
         info = detect_project_type(self.root)
         cmd = info.get("test_command")
         if not cmd:
@@ -82,6 +84,14 @@ class TestRunner:
                     "project_type": info["type"]}
         if isinstance(scope, str) and scope not in ("auto", "", None):
             cmd = cmd + [scope]
+        # The scope string is user input appended to argv — enforce the
+        # dangerous-command policy at this boundary too (argv stays fixed;
+        # this rejects e.g. a scope crafted to contain 'rm -rf').
+        try:
+            assert_safe_command(cmd)
+        except Exception as exc:  # noqa: BLE001
+            return {"ok": False, "error": f"command rejected by safety policy: {exc}",
+                    "command": cmd}
         timeout = timeout or self.settings.command_timeout_seconds
         started = _time.monotonic()
         try:
@@ -114,10 +124,13 @@ class TestRunner:
         }
 
     async def static_check(self) -> dict[str, Any]:
+        from app.tools.registry import assert_safe_command
+
         info = detect_project_type(self.root)
         cmd = info.get("lint_command")
         if not cmd:
             return {"ok": True, "skipped": True, "reason": "no configured lint command for this project type"}
+        assert_safe_command(cmd)
         try:
             proc = subprocess.run(cmd, cwd=str(self.root), capture_output=True, text=True,
                                   timeout=120, shell=False)

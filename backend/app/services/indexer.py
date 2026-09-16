@@ -9,7 +9,7 @@ from app.indexing.scanner import (
     normalize_repo_path,
     read_text_safe,
 )
-from app.indexing.secrets import find_secrets
+from app.indexing.secrets import find_secrets, redact
 from app.models.domain import (
     Relationship,
     Repository,
@@ -53,6 +53,12 @@ def index_repository(repo: Repository, store: Store, extra_ignores: list[str] | 
             continue
         if find_secrets(text):
             secret_hits += 1
+        # Redact BEFORE any persistence: raw secret values must never enter
+        # the file_docs table (the retriever and every downstream consumer
+        # read from storage). Redaction preserves line structure, so symbol
+        # line numbers stay correct. sha256 in FileEntry is computed by the
+        # scanner over the ORIGINAL bytes and is unchanged by this.
+        text = redact(text)
         if entry.language in _TS_PARSEABLE and entry.is_source:
             try:
                 file_syms, file_rels = extract_symbols(entry.path, text, entry.language)

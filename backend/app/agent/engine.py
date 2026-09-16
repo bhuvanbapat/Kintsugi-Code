@@ -148,8 +148,6 @@ class Agent:
             )
             total_input_tokens += response.input_tokens or 0
             total_output_tokens += response.output_tokens or 0
-            if response.usage.get("available"):
-                pass
             run.result = response.content
             run.evidence = all_evidence
             run.usage = {

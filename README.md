@@ -91,7 +91,7 @@ Environment variables (prefix `CODEFORGE_`, see `.env.example`):
 ## Testing
 
 ```bash
-cd backend && .venv\Scripts\python -m pytest tests -q   # 34 tests
+cd backend && .venv\Scripts\python -m pytest tests -q   # 71 tests
 cd examples\sample_repo && python -m pytest -q          # 6 pass, 1 fail (intentional)
 cd frontend && npx tsc -b --noEmit && npm run build       # typecheck + build
 ```
@@ -107,11 +107,13 @@ against the live backend).
 - Path containment: every file access is resolved and checked against the
   repository root — traversal is rejected (tested).
 - Secret redaction: API keys/passwords/private keys in indexed content are
-  replaced with `[REDACTED_SECRET]` before storage/retrieval (tested); logs
-  pass through a redacting filter.
+  replaced with `[REDACTED_SECRET]` at ingestion — before SQLite storage,
+  retrieval, tool output, or LLM context (tested); log records are redacted
+  at creation, including exception/traceback text.
 - Prompt injection: repository content is data, never instructions; the agent
   composes answers from structured retrieval output, not raw repo text.
-- Dangerous-command policy blocks `rm -rf`, curl|sh, fork bombs (tested).
+- Dangerous-command policy blocks `rm -rf`, curl|sh, fork bombs — enforced at
+  the subprocess execution boundary (tested through the production path).
 
 See `docs/SECURITY.md` for the threat model.
 
@@ -125,8 +127,10 @@ Evaluation page or `backend/scripts/run_evaluation.py`. Nothing is simulated.
 
 CodeForge speaks MCP over stdio (JSON-RPC 2.0): run
 `python -m app.mcp.server` in `backend/` and any MCP client can call
-`search_code`, `get_symbol`, `get_repository_map`, `get_dependencies`,
-`list_files`, `read_file`. Verified end-to-end in `scripts/verify_mcp.py`.
+`set_repository`, `search_code`, `get_symbol`, `get_repository_map`,
+`get_dependencies`, `find_path`, `list_files`, `read_file` (8 read-only
+tools; no mutation tools are exposed). Verified end-to-end in
+`scripts/verify_mcp.py`.
 An MCP client is also included for consuming external MCP servers. Details:
 `docs/MCP.md`.
 
@@ -139,9 +143,9 @@ docker compose up --build
 ## Repository layout
 
 ```
-backend/    FastAPI app + tests (34 passing)
+backend/    FastAPI app + tests (71 passing)
 frontend/   React + TS (12 screens)
-examples/sample_repo/   demo app with intentional bug + failing test
+examples/sample_repo/   demo app with intentional bug + failing test (tracked files)
 docs/       ARCHITECTURE, SECURITY, EVALUATION, MCP, DEMO, ADRs, interview guide
 scripts/    e2e_demo.py, verify_mcp.py, run_evaluation.py
 graphify-out/  knowledge graph of this codebase (graph.html, GRAPH_REPORT.md)
