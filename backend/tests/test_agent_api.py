@@ -238,7 +238,8 @@ async def test_tool_rejects_directory_and_root_reads(indexed_repo, temp_store, s
     assert result["ok"] is False
     # errors must not leak absolute host paths
     if not result["ok"] and result.get("error"):
-        assert ":\\" not in result["error"] and str(sample_repo_copy.drive) not in result["error"]
+        drive = str(sample_repo_copy.drive)
+        assert ":\\" not in result["error"] and (not drive or drive not in result["error"])
 
 
 def test_api_diff_apply_rollback(client, indexed_repo, sample_repo_copy):
@@ -342,3 +343,4 @@ def test_api_diff_apply_success_retained(client, indexed_repo, sample_repo_copy)
     assert not body.get("rolled_back")
     assert (sample_repo_copy / "services" / "task_service.py").read_text(encoding="utf-8") == fixed
     assert (body.get("test_result") or {}).get("passed", 0) >= 7
+
