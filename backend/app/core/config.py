@@ -13,7 +13,7 @@ class Settings(BaseSettings):
         # backend/.env (module is app/core/config.py → parents[2] = backend/)
         env_file=str(Path(__file__).resolve().parents[2] / ".env"),
         env_file_encoding="utf-8",
-        env_prefix="Kintsugi-Code_",
+        env_prefix="KINTSUGI_CODE_",
         extra="ignore",
     )
 
@@ -23,10 +23,10 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
 
     database_url: str = Field(
-        default_factory=lambda: f"sqlite:///{Path(__file__).resolve().parents[2] / 'Kintsugi-Code.db'}"
+        default_factory=lambda: f"sqlite:///{Path(__file__).resolve().parents[2] / 'kintsugi_code.db'}"
     )
     sqlite_path: str = Field(
-        default_factory=lambda: str(Path(__file__).resolve().parents[2] / "Kintsugi-Code.db")
+        default_factory=lambda: str(Path(__file__).resolve().parents[2] / "kintsugi_code.db")
     )
 
     llm_provider: Literal["openai", "mock"] = "mock"
